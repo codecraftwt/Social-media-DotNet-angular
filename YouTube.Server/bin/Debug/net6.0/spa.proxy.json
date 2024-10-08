@@ -1,0 +1,8 @@
+{
+"SpaProxyServer": {
+"ServerUrl": "https://localhost:4200",
+"LaunchCommand": "npm start",
+"WorkingDirectory": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\..\\youtube.client",
+"MaxTimeoutInSeconds": "120"
+}
+}

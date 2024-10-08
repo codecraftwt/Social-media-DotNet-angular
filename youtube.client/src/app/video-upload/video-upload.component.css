@@ -1,0 +1,55 @@
+.container {
+    max-width: 500px; /* Limit the width of the form */
+    margin: 50px auto; /* Center the container */
+    padding: 20px; /* Add padding inside the container */
+    border: 1px solid #ccc; /* Add a border */
+    border-radius: 8px; /* Round the corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add shadow */
+    background-color: #fff; /* White background */
+}
+
+h1 {
+    text-align: center; /* Center the title */
+    color: #333; /* Dark gray color */
+    margin-bottom: 20px; /* Space below the title */
+}
+
+input[type="text"],
+textarea {
+    width: 100%; /* Full width */
+    padding: 10px; /* Padding inside the input */
+    margin: 10px 0; /* Space above and below */
+    border: 1px solid #ccc; /* Border for input */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+}
+
+input[type="file"] {
+    margin: 10px 0; /* Space above and below */
+}
+
+button {
+    width: 100%; /* Full width */
+    padding: 10px; /* Padding inside the button */
+    background-color: #28a745; /* Green background */
+    color: white; /* White text */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Pointer on hover */
+}
+
+button:disabled {
+    background-color: #ccc; /* Gray background for disabled state */
+    cursor: not-allowed; /* Not allowed cursor */
+}
+
+button:hover:not(:disabled) {
+    background-color: #218838; /* Darker green on hover */
+}
+
+div {
+    margin-top: 20px; /* Space above the message */
+    text-align: center; /* Center the message */
+    color: black; /* Red color for the message */
+}

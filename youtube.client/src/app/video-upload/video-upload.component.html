@@ -1,0 +1,16 @@
+<div class="container">
+
+  <label>Video Title</label><br>
+  <input type="text" [(ngModel)]="videoTitle" style="padding-right: 0px;" placeholder="Enter video title" /><br>
+
+  <label>Upload Your Video</label><br>
+
+  <input type="file" (change)="onVideoChange($event)" accept="video/*" /><br>
+  <span *ngIf="videoError" style="color: red;">{{ videoError }}</span><br>
+
+  <label>Upload Your Thumbnail</label><br>
+  <input type="file" (change)="onThumbnailChange($event)" accept="image/*" /><br>
+  
+  <button (click)="upload()">Upload</button><br>
+</div>
+

@@ -1,0 +1,183 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+  }
+  .logo {
+    font-size: 24px;
+    color: #ff0000; /* YouTube red */
+  }
+  .icons {
+    display: flex;
+    gap: 15px;
+  }
+  .icons i {
+    cursor: pointer;
+    font-size: 20px;
+    font-style: italic;
+
+  }
+  .youtube-icon {
+    font-size: 24px;
+    color: white;
+    margin-right: 10px;
+    background-color: red;
+}
+.bell-icon {
+  font-size: 24px;
+  color: white;
+  margin-right: 10px;
+}
+.icon-container {
+  width: 40px; 
+  height: 40px; 
+  border-radius: 50%;
+  background-color: #fff; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px; 
+}
+
+
+
+
+.icon-container {
+  position: relative;
+  cursor: pointer; 
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%; 
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10; 
+}
+
+.dropdown-menu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-menu li {
+  padding: 10px;
+}
+
+.dropdown-menu li:hover {
+  background-color: #f0f0f0; 
+}
+
+/* 
+.video-list {
+  padding: 20px;
+}
+
+.video-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Adjusts the space between videos */
+/* }
+
+.video-container > div {
+  flex: 0 0 calc(16.66% - 10px); 
+  box-sizing: border-box;
+}
+
+video {
+  width: 100%; 
+  height: auto; 
+}  */
+
+
+
+.video-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.video-item {
+  margin: 10px;
+  position: relative;
+}
+
+.thumbnail {
+  cursor: pointer;
+  width: 400px; 
+  height: 400px;
+}
+
+video {
+  width: 400px; 
+  height: 400px;
+  display: block;
+  margin-top: 10px;
+}
+
+
+
+
+
+.icon-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.profile-pic {
+  width: 40px; 
+  height: 40px; 
+  border-radius: 50%;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white; 
+  border: 1px solid #ccc; 
+  z-index: 1000; 
+}
+
+
+
+
+.video-icons img {
+  width: 24px; 
+  height: auto; 
+  margin-right: 10px; 
+  text-align: right;
+}
+
+
+
+.video-info {
+  display: flex;            
+  justify-content: space-between; 
+  align-items: center;     
+  width: 100%;             
+}
+
+.video-title {
+  overflow: hidden;        
+  white-space: nowrap;     
+  text-overflow: ellipsis; 
+  flex-grow: 1;            
+}
+
+.title {
+  margin: 0;               
+  font-size: 1.2em;       
+}
+
+.video-icons {
+  display: flex;           
+  align-items: center;    
+}
+.video-icons span {
+  margin-left: 8px; 
+}

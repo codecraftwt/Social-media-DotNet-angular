@@ -1,0 +1,109 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedThumbnails\\1.jpg",
+      "PackagePath": "staticwebassets\\UploadedThumbnails\\1.jpg"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedThumbnails\\1.png",
+      "PackagePath": "staticwebassets\\UploadedThumbnails\\1.png"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedThumbnails\\1_1.png",
+      "PackagePath": "staticwebassets\\UploadedThumbnails\\1_1.png"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedThumbnails\\2123123654520 - Copy (2).jpg",
+      "PackagePath": "staticwebassets\\UploadedThumbnails\\2123123654520 - Copy (2).jpg"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedThumbnails\\2123123654520 - Copy (2)_1.jpg",
+      "PackagePath": "staticwebassets\\UploadedThumbnails\\2123123654520 - Copy (2)_1.jpg"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedThumbnails\\3 - Copy.png",
+      "PackagePath": "staticwebassets\\UploadedThumbnails\\3 - Copy.png"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedThumbnails\\4.png",
+      "PackagePath": "staticwebassets\\UploadedThumbnails\\4.png"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedThumbnails\\5.jpg",
+      "PackagePath": "staticwebassets\\UploadedThumbnails\\5.jpg"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedThumbnails\\Picture6.jpg",
+      "PackagePath": "staticwebassets\\UploadedThumbnails\\Picture6.jpg"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedVideos\\video1.mp4",
+      "PackagePath": "staticwebassets\\UploadedVideos\\video1.mp4"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedVideos\\video1_1.mp4",
+      "PackagePath": "staticwebassets\\UploadedVideos\\video1_1.mp4"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedVideos\\video1_2.mp4",
+      "PackagePath": "staticwebassets\\UploadedVideos\\video1_2.mp4"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedVideos\\video1_3.mp4",
+      "PackagePath": "staticwebassets\\UploadedVideos\\video1_3.mp4"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedVideos\\video2.mp4",
+      "PackagePath": "staticwebassets\\UploadedVideos\\video2.mp4"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedVideos\\video2_1.mp4",
+      "PackagePath": "staticwebassets\\UploadedVideos\\video2_1.mp4"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedVideos\\video2_2.mp4",
+      "PackagePath": "staticwebassets\\UploadedVideos\\video2_2.mp4"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedVideos\\video2_3.mp4",
+      "PackagePath": "staticwebassets\\UploadedVideos\\video2_3.mp4"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedVideos\\video2_4.mp4",
+      "PackagePath": "staticwebassets\\UploadedVideos\\video2_4.mp4"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedVideos\\video2_5.mp4",
+      "PackagePath": "staticwebassets\\UploadedVideos\\video2_5.mp4"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedVideos\\video3.mp4",
+      "PackagePath": "staticwebassets\\UploadedVideos\\video3.mp4"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\profile\\3 - Copy - Copy.png",
+      "PackagePath": "staticwebassets\\profile\\3 - Copy - Copy.png"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\profile\\3 - Copy.png",
+      "PackagePath": "staticwebassets\\profile\\3 - Copy.png"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.YouTube.Server.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.build.YouTube.Server.props",
+      "PackagePath": "build\\YouTube.Server.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildMultiTargeting.YouTube.Server.props",
+      "PackagePath": "buildMultiTargeting\\YouTube.Server.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildTransitive.YouTube.Server.props",
+      "PackagePath": "buildTransitive\\YouTube.Server.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
