@@ -3,6 +3,7 @@ import { VideoUploadService } from '../services/video-upload.service';
 import { VideoUpload } from '../model/VideoUpload';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/AuthService ';
 
 @Component({
   selector: 'app-video-upload',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class VideoUploadComponent {
 
-  constructor(private videoUploadService: VideoUploadService,private router: Router) {}
+  constructor(private videoUploadService: VideoUploadService,private router: Router,private authService: AuthService) {}
 
 
 
@@ -23,7 +24,7 @@ export class VideoUploadComponent {
 
 
   onVideoChange(event: any) {
-    debugger
+   
     const file = event.target.files[0];
     const maxSizeInBytes = 50 * 1024 * 1024; // 50 MB limit
 
@@ -49,9 +50,11 @@ export class VideoUploadComponent {
   }
 
   upload() {
-    debugger
+  
+    const userId = this.authService.getUserId();
+    if (userId !== null) {
     if (this.videoFile && this.thumbnailFile && this.videoTitle) {
-      this.videoUploadService.uploadVideo(this.videoFile, this.thumbnailFile,this.videoTitle).subscribe(response => {
+      this.videoUploadService.uploadVideo(userId,this.videoFile, this.thumbnailFile,this.videoTitle).subscribe(response => {
         this.videoUrl = response.videoFilePath; // Update according to your API response structure
         console.log('Upload successful!', response);
         Swal.fire({
@@ -79,6 +82,7 @@ export class VideoUploadComponent {
       text: 'Please select both a video and a thumbnail.',
     });
   }
+}
   }
   
 

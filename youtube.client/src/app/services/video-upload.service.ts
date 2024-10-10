@@ -53,9 +53,10 @@ export class VideoUploadService  {
   
 
 
-  uploadVideo(videoFile: File, thumbnailFile: File, title:string): Observable<any> {
+  uploadVideo(userId: number,videoFile: File, thumbnailFile: File, title:string): Observable<any> {
   
     const formData = new FormData();
+    formData.append('userId',userId.toString())
     formData.append('fileupload', videoFile);
     formData.append('thumbnailUpload', thumbnailFile);
     formData.append('title', title);
@@ -73,7 +74,7 @@ export class VideoUploadService  {
   
 
   getVideos(): Observable<VideoUpload[]> {
-    debugger
+
     return this.http.get<VideoUpload[]>(`${this.apiUrl}/GetVideoAll`, {
       headers:this.createHeaders() // Pass the headers here
     }).pipe(
@@ -113,6 +114,31 @@ export class VideoUploadService  {
     return this.http.put<void>(`${this.apiUrl}/${videoId}/view`,{}, {headers:this.createHeaders()});
   }
 
+
+  getUserVideos(Id: number): Observable<VideoUpload[]> {
+
+    return this.http.get<VideoUpload[]>(`${this.apiUrl}/${Id}/GetVideosByUserId`, {
+      headers:this.createHeaders() // Pass the headers here
+    }).pipe(
+      tap(response => console.log('API Response:', response)), 
+      map(videoFiles => videoFiles.map(video => {
+        const Url = `${environment.baseUrl}/${video.url}`; // Use 'video.url'
+        const Thumbnail = `${environment.baseUrl}/${video.thumbnail}`; // Use 'video.thumbnail'
+        console.log('Video URL:', Url); // Log constructed video URL
+        console.log('Thumbnail URL:', Thumbnail); // Log constructed thumbnail URL
+        return {
+          ...video, 
+          url: Url,
+          thumbnail: Thumbnail,
+          Likes: video.likes || 0,       // Ensure Likes is set
+          Dislikes: video.dislikes || 0,   // Ensure Dislikes is set
+          Views: video.views || 0   ,
+          title : video.title
+        };
+      }))
+    );
+  }
+   
   
 }
   

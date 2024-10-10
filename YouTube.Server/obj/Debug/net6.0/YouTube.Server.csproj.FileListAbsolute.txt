@@ -54,6 +54,7 @@ D:\Mahadevi_C\CLIENT\YouTube\YouTube.Server\obj\Debug\net6.0\YouTube.Server.Asse
 D:\Mahadevi_C\CLIENT\YouTube\YouTube.Server\obj\Debug\net6.0\YouTube.Server.csproj.CoreCompileInputs.cache
 D:\Mahadevi_C\CLIENT\YouTube\YouTube.Server\obj\Debug\net6.0\YouTube.Server.MvcApplicationPartsAssemblyInfo.cs
 D:\Mahadevi_C\CLIENT\YouTube\YouTube.Server\obj\Debug\net6.0\YouTube.Server.MvcApplicationPartsAssemblyInfo.cache
+D:\Mahadevi_C\CLIENT\YouTube\YouTube.Server\obj\Debug\net6.0\YouTube.Server.sourcelink.json
 D:\Mahadevi_C\CLIENT\YouTube\YouTube.Server\obj\Debug\net6.0\staticwebassets.build.json
 D:\Mahadevi_C\CLIENT\YouTube\YouTube.Server\obj\Debug\net6.0\staticwebassets.development.json
 D:\Mahadevi_C\CLIENT\YouTube\YouTube.Server\obj\Debug\net6.0\staticwebassets\msbuild.YouTube.Server.Microsoft.AspNetCore.StaticWebAssets.props

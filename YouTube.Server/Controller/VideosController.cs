@@ -97,52 +97,8 @@ namespace YouTube.Server.Controller
         }
 
 
-        //[HttpPost("upload")]
-        //public async Task<ActionResult> Upload([FromBody] VideoUploadDto videoUpload)
-        //{
-        //    await _videoRepository.UploadAsync(videoUpload);
-        //    return Ok();
-        //}
-
-
-        //[HttpPost("upload")]
-        //public async Task<ActionResult> UploadVideo([FromForm] IFormFile fileupload)
-        //{
-        //    try
-        //    {
-        //        if (fileupload == null || fileupload.Length == 0)
-        //            return BadRequest("No file uploaded.");
-
-        //        string fileName = Path.GetFileName(fileupload.FileName);
-        //        long fileSize = fileupload.Length; // Size in bytes
-        //        int sizeInKb = (int)(fileSize / 1024); // Size in KB
-
-        //        if (!Directory.Exists(_videoPath))
-        //        {
-        //            Directory.CreateDirectory(_videoPath);
-        //        }
-
-        //        // Save the file
-        //        var filePath = Path.Combine(_videoPath, fileName);
-        //        using (var stream = new FileStream(filePath, FileMode.Create))
-        //        {
-        //            await fileupload.CopyToAsync(stream);
-        //        }
-
-        //        return Ok(new { fileName, sizeInKb });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Log the exception (you can use a logging framework)
-        //        return StatusCode(500, $"Internal server error: {ex.Message}");
-        //    }
-        //}
-
-
-
-
         [HttpPost("UploadVideo")]
-        public async Task<ActionResult> UploadVideoFile([FromForm] IFormFile fileupload, [FromForm] IFormFile thumbnailUpload, [FromForm] string title)
+        public async Task<ActionResult> UploadVideoFile([FromForm] int userId, [FromForm] IFormFile fileupload, [FromForm] IFormFile thumbnailUpload, [FromForm] string title)
         {
             try
             {
@@ -206,6 +162,7 @@ namespace YouTube.Server.Controller
 
                 var videoUpload = new Video
                 {
+                    UserId = userId,
                     Url = Url.Content($"~/UploadedVideos/{Path.GetFileName(videoFilePath)}"),
                     Thumbnail = Url.Content($"~/UploadedThumbnails/{Path.GetFileName(thumbnailFilePath)}"),
                     Title = title
@@ -289,6 +246,43 @@ namespace YouTube.Server.Controller
             await _videoRepository.IncrementViewAsync(id);
             return NoContent();
         }
+
+
+
+        [HttpGet("{id}/GetVideosByUserId")]
+        public async Task<ActionResult<List<VideoDto>>> GetUserVideo(int Id)
+        {
+            try
+            {
+                var videos = await _videoRepository.GetVideosByUserIdAsync(Id);
+
+                if (videos == null || !videos.Any())
+                {
+                    return NotFound("No videos found.");
+                }
+
+                var videoDtos = videos.Select(v => new VideoDto
+                {
+                    Id = v.Id,
+                    Url = v.Url,
+                    Thumbnail = v.Thumbnail,
+                    Likes = v.Likes,
+                    Dislikes = v.Dislikes,
+                    Views = v.Views,
+                    Title = v.Title,
+
+                }).ToList();
+
+                return Ok(videoDtos);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, "Internal server error.");
+            }
+        }
+
+
 
     }
 }

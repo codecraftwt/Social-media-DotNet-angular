@@ -37,6 +37,10 @@
       "PackagePath": "staticwebassets\\UploadedThumbnails\\Picture6.jpg"
     },
     {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedThumbnails\\lukas.jpg",
+      "PackagePath": "staticwebassets\\UploadedThumbnails\\lukas.jpg"
+    },
+    {
       "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedVideos\\video1.mp4",
       "PackagePath": "staticwebassets\\UploadedVideos\\video1.mp4"
     },
@@ -65,6 +69,10 @@
       "PackagePath": "staticwebassets\\UploadedVideos\\video2_2.mp4"
     },
     {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedVideos\\video2_2_1.mp4",
+      "PackagePath": "staticwebassets\\UploadedVideos\\video2_2_1.mp4"
+    },
+    {
       "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedVideos\\video2_3.mp4",
       "PackagePath": "staticwebassets\\UploadedVideos\\video2_3.mp4"
     },
@@ -87,6 +95,10 @@
     {
       "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\profile\\3 - Copy.png",
       "PackagePath": "staticwebassets\\profile\\3 - Copy.png"
+    },
+    {
+      "Id": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\profile\\red ball.jpeg",
+      "PackagePath": "staticwebassets\\profile\\red ball.jpeg"
     },
     {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.YouTube.Server.Microsoft.AspNetCore.StaticWebAssets.props",

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using YouTube.Server.Models;
@@ -32,6 +33,7 @@ namespace YouTube.Server.Controller
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
             var users = await _userRepository.GetAllUsersAsync();
+
             return Ok(users);
         }
 
@@ -74,14 +76,66 @@ namespace YouTube.Server.Controller
         }
 
         // PUT: api/users/{id}
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, User user)
+        [HttpPut("{id}/UpdateUserData")]
+    
+        public async Task<IActionResult> UpdateUser(int id, [FromForm] Profile user, IFormFile profilePicture)
         {
-            if (id != user.Id)
+            if(id <= 0)
             {
                 return BadRequest();
             }
-            await _userRepository.UpdateUserAsync(user);
+            var existingUser = await _userRepository.GetUserByIdAsync(id);
+            if (existingUser == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            // Update the user's details
+            existingUser.Email = user.Email;
+            existingUser.UserName = user.UserName;
+            existingUser.FullName = user.FullName;
+
+            if (profilePicture != null && profilePicture.Length > 0)
+            {
+                try
+                {
+                    // Validate file type and size
+                    var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                    var extension = Path.GetExtension(profilePicture.FileName).ToLower();
+                    if (!allowedExtensions.Contains(extension))
+                    {
+                        return BadRequest("Invalid file type.");
+                    }
+
+                    // Define the directory path
+                    var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "profile");
+
+                    // Check if the directory exists, if not, create it
+                    if (!Directory.Exists(directoryPath))
+                    {
+                        Directory.CreateDirectory(directoryPath);
+                    }
+
+                    // Define the full file path
+                    var filePath = Path.Combine(directoryPath, profilePicture.FileName);
+
+                    // Save the file
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await profilePicture.CopyToAsync(stream);
+                    }
+
+                    // Save file path to user or any other logic needed
+                    existingUser.ProfilePic = $"/profile/{profilePicture.FileName}"; ; // Save the file path or just the filename based on your needs
+                }
+                catch (Exception ex)
+                {
+                    // Log the exception (consider using a logging framework)
+                    return StatusCode(500, "An error occurred: " + ex.Message);
+                }
+            }
+
+            await _userRepository.UpdateUserAsync(existingUser);
             return NoContent();
         }
 
@@ -224,6 +278,60 @@ namespace YouTube.Server.Controller
             }
 
             return Ok(new { token = token.JwtToken });
+        }
+
+        [HttpGet("{id}/GetUser")]
+        [Authorize]
+
+        public async Task<ActionResult<Profile>> GetUserProfile(int id)
+        {
+            try
+            {
+                var user = await _userRepository.GetUserByIdAsync(id); // Retrieve user by ID
+
+                if (user == null)
+                {
+                    return NotFound("User not found.");
+                }
+                var profile = new Profile
+                {
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    FullName = user.FullName,
+                    ProfilePic = user.ProfilePic
+                };
+
+                return Ok(profile);
+            }
+            catch (Exception ex)
+            {
+                // Optionally log the exception
+                return StatusCode(500, "Internal server error.");
+            }
+        }
+
+        // GET: api/users/{id}/username
+        [HttpGet("{id}/username")]
+        [Authorize]
+        public async Task<ActionResult<string>> GetUserNameById(int id)
+        {
+            try
+            {
+                var user = await _userRepository.GetUserByIdAsync(id); // Retrieve user by ID
+
+                if (user == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                return Ok(new { username = user.UserName });
+
+            }
+            catch (Exception ex)
+            {
+                // Optionally log the exception
+                return StatusCode(500, "Internal server error.");
+            }
         }
 
 

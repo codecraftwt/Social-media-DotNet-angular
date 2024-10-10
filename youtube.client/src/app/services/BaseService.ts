@@ -15,6 +15,7 @@ export class BaseService {
     console.log('Retrieved Access Token:', this.accessToken);
   }
   protected createHeaders(): HttpHeaders {
+   
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + this.accessToken,
       'Content-Type': 'application/json',

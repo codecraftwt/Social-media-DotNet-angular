@@ -10,6 +10,8 @@ import { RegisterComponent } from './register/register.component';
 import { FormsModule } from '@angular/forms';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { VideoUploadComponent } from './video-upload/video-upload.component';
+import { ProfileEditComponent } from './profile-edit/profile-edit.component';
+import { UserVideoComponent } from './user-video/user-video.component';
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import { VideoUploadComponent } from './video-upload/video-upload.component';
     HeaderComponent,
     RegisterComponent,
     UserLoginComponent,
-    VideoUploadComponent
+    VideoUploadComponent,
+    ProfileEditComponent,
+    UserVideoComponent
   ],
   imports: [
     BrowserModule,

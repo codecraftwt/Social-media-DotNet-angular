@@ -8,6 +8,7 @@ import { Token } from '@angular/compiler';
 import { BaseService } from './BaseService';
 import { AuthService } from './AuthService ';
 import { Profile } from '../model/Profile';
+import { EditProfile } from '../model/EditProfile';
 
 @Injectable({
   providedIn: 'root'
@@ -96,7 +97,43 @@ getUserProfileById(userId: number): Observable<Profile> {
       return of({ ProfilePic: '' }); // Return a default value in case of error
     })
   );
+
 }
+
+private createHeadersP(): HttpHeaders {
+  const token = this.authService.getToken();
+  return new HttpHeaders({
+    Authorization: `Bearer ${token || ''}`,
+    // 'Content-Type': 'application/json',
+   
+    Accept: 'application/json, text/plain, */*'
+  });
+}
+
+getUser(id: number): Observable<EditProfile> {
+
+  return this.http.get<EditProfile>(`${this.rootController}/${id}/GetUser`, { headers: this.createHeadersP() });
+}
+
+
+updateUser(id: number, userData: FormData): Observable<any> {
+  return this.http.put(`${this.rootController}/${id}/UpdateUserData`, userData, { headers: this.createHeadersP() });
+}
+
+getUserNameById(userId: number): Observable<string> {
+ 
+  return this.http.get<{ username: string }>(`${this.rootController}/${userId}/username`, { headers: this.createHeadersP() }).pipe(
+    tap(response => {
+      console.log('Fetched Username:', response.username);
+    }),
+    map(response => response.username), // Extract the username from the response
+    catchError(error => {
+      console.error('Error fetching username:', error);
+      return of(''); // Return an empty string or a default value in case of error
+    })
+  );
+}
+
 
 
 

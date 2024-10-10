@@ -1,0 +1,91 @@
+<nav class="navbar">
+    <div class="logo">
+        <i class="fab fa-youtube"></i> <!-- YouTube icon -->
+        <span class="youtube-text">YouTube</span>
+      </div>
+  
+    <div class="search-container">
+      <input 
+        type="text" 
+        placeholder="Search..." 
+        class="search-input" 
+        [(ngModel)]="searchTerm" 
+        (input)="filterVideos()" 
+      />
+      <i class="fas fa-search"></i>
+    </div>
+  
+    <div class="icons">
+     
+      <a routerLink="/upload"><i class="fas fa-camera"></i></a>
+     
+      <i class="fas fa-bell"></i>
+     
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+      <div class="icon-container" (click)="toggleDropdown()">
+        <img *ngIf="userProfilePic; else defaultIcon" [src]="userProfilePic" alt="Profile Picture" class="profile-pic" />
+        <ng-template #defaultIcon>
+          <span>👤</span>
+          
+        </ng-template>
+        <div *ngIf="isDropdownOpen" class="dropdown-menu">
+          <ul>
+            <!-- <li><a routerLink="/profile">Profile</a></li>-->
+            <li><a routerLink="/header">Home</a></li> 
+            <li ><a routerLink="/edit-profile">Edit Profile</a></li>
+            <li ><a routerLink="/">Logout</a></li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+  
+  
+  <div class="video-list">
+   
+    <div *ngIf="isLoading">Loading videos...</div>
+    <div *ngIf="filteredVideos.length > 0; else noVideos">
+      <div class="video-container">
+        <div *ngFor="let video of filteredVideos" class="video-item">
+          <video class="styled-video" controls preload="metadata" [poster]="video.thumbnail" (click)="incrementView(video)">
+            <source [src]="video.url" type="video/mp4">
+            Your browser does not support the video tag.
+          </video><br>
+  
+          <div class="video-info">
+            <div class="video-title">
+              <h3 class="title">{{ video.title }}</h3> 
+            </div>
+            <div class="video-icons">
+              <span class="like-icon" (click)="incrementLike(video)">
+                <i class="fa fa-thumbs-up"></i>
+                <span class="count">{{ video.likes ?? 0 }}</span> |
+              </span>
+              <span class="dislike-icon" (click)="incrementUnlike(video)">
+                <i class="fa-solid fa-thumbs-down"></i>
+                <span class="count">{{ video.dislikes ?? 0 }}</span> |
+              </span>
+              <span class="view-icon">
+                <i class="fa-solid fa-eye"></i>
+                <span class="count">{{ video.views ?? 0 }}</span>
+              </span>
+            </div>
+          </div>
+        
+    
+  
+  
+  
+        </div>
+      </div>
+    </div>
+    <ng-template #noVideos>
+      <p>No videos available.</p>
+    </ng-template>
+  </div>
+  
+  

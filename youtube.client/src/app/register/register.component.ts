@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms'; // Import NgForm
+import { NgForm } from '@angular/forms'; 
 import { RegistrationService } from '../services/registration.service';
 import { User } from '../model/User';
 import Swal from 'sweetalert2';
@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css'] // Corrected styleUrls
+  styleUrls: ['./register.component.css'] 
 })
 export class RegisterComponent {
   user: User = {
@@ -24,7 +24,7 @@ export class RegisterComponent {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file = input.files[0];
-      this.user.ProfilePic = file.name; // Consider storing the actual file or blob instead
+      this.user.ProfilePic = file.name; 
       console.log(this.user.ProfilePic);
     }
   }
@@ -43,10 +43,10 @@ export class RegisterComponent {
         formData.append('profilePic', file);
       }
       console.log( this.user.ProfilePic)
-      debugger
+   
       
       this.registrationService.CreateUser(formData).subscribe(response => {
-        debugger
+     
         console.log('Registration successful', response);
         Swal.fire({
           icon: 'success',

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "kOZMfiTh7kSHO7sAeXnSbjLvXmQSrGx/2nyOKT0SXBg=",
+  "Hash": "U2Z4pZ4icn5pi9APfa9FRzPPoZePzChXjTjWPObJ/Q0=",
   "Source": "YouTube.Server",
   "BasePath": "_content/YouTube.Server",
   "Mode": "Default",
@@ -65,6 +65,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\profile\\3 - Copy.png"
+    },
+    {
+      "Identity": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\profile\\red ball.jpeg",
+      "SourceId": "YouTube.Server",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\",
+      "BasePath": "_content/YouTube.Server",
+      "RelativePath": "profile/red ball.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\profile\\red ball.jpeg"
     },
     {
       "Identity": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedThumbnails\\1.jpg",
@@ -219,6 +238,25 @@
       "OriginalItemSpec": "wwwroot\\UploadedThumbnails\\5.jpg"
     },
     {
+      "Identity": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedThumbnails\\lukas.jpg",
+      "SourceId": "YouTube.Server",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\",
+      "BasePath": "_content/YouTube.Server",
+      "RelativePath": "UploadedThumbnails/lukas.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\UploadedThumbnails\\lukas.jpg"
+    },
+    {
       "Identity": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedThumbnails\\Picture6.jpg",
       "SourceId": "YouTube.Server",
       "SourceType": "Discovered",
@@ -369,6 +407,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\UploadedVideos\\video2_2.mp4"
+    },
+    {
+      "Identity": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedVideos\\video2_2_1.mp4",
+      "SourceId": "YouTube.Server",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\",
+      "BasePath": "_content/YouTube.Server",
+      "RelativePath": "UploadedVideos/video2_2_1.mp4",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\UploadedVideos\\video2_2_1.mp4"
     },
     {
       "Identity": "D:\\Mahadevi_C\\CLIENT\\YouTube\\YouTube.Server\\wwwroot\\UploadedVideos\\video2_3.mp4",

@@ -1,0 +1,32 @@
+<div class="container">
+    <h1>Edit Profile</h1>
+    
+    <form (ngSubmit)="onSubmit(editProfileForm)" #editProfileForm="ngForm">
+      <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" [(ngModel)]="user.email" required>
+      </div>
+  
+      <div>
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" name="fullname" [(ngModel)]="user.fullName" required>
+      </div>
+  
+      <div>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" [(ngModel)]="user.userName" required>
+      </div>
+  
+      <div>
+        <label for="profile-pic">Profile Picture</label>
+        <input type="file" id="profile-pic" #fileInput (change)="onFileChange($event)" required>
+        <p *ngIf="user.profilePic">Current profile picture: {{ getFileName(user.profilePic) }}</p>
+      </div>
+  
+      <div>
+        <button type="submit" [disabled]="!editProfileForm.form.valid">Save Changes</button>
+      </div>
+      
+      <p>Want to go back? <a routerLink="/header">Home</a></p>
+    </form>
+</div>

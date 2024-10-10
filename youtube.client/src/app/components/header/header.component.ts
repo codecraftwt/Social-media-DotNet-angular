@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { VideoUploadService } from '../../services/video-upload.service';
 import { VideoUpload } from '../../model/VideoUpload';
 import Swal from 'sweetalert2';
@@ -17,18 +17,21 @@ export class HeaderComponent {
   videos: VideoUpload[] = [];
   @Input() video!: Video;
   ImagePath: string; 
-  videoPathToPlay: string | null = null; // Add this property
+  videoPathToPlay: string | null = null; 
   isLoading = true;
   userProfilePic: string | undefined;
   private viewedVideos: Set<string> = new Set();
+  filteredVideos: VideoUpload[] = [];
+  searchTerm: string = ''; 
+  usernames: string = '';
 
-
-  constructor(private videoUploadService: VideoUploadService,private registrationService: RegistrationService,private authService: AuthService) {
+  constructor(private videoUploadService: VideoUploadService,private registrationService: RegistrationService,private authService: AuthService,private cdr: ChangeDetectorRef) {
      this.ImagePath = '/assets/images/Like.png'
   }
   ngOnInit(): void {
     this.loadVideos();
     this.loadUserProfile();
+    this.getAllUsers();
   }
   
   loadUserProfile() {
@@ -60,12 +63,13 @@ export class HeaderComponent {
           Dislikes: video.dislikes ?? 0,
           Views: video.views ?? 0,
         }));
-        this.isLoading = false; // Set loading to false after loading
+        this.filteredVideos = this.videos;
+        this.isLoading = false; 
         console.log('Processed video files:', this.videos);
       },
       error: (err) => {
         console.error('Error loading videos', err);
-        this.isLoading = false; // Set loading to false even on error
+        this.isLoading = false; 
       },
     });
   }
@@ -106,15 +110,50 @@ export class HeaderComponent {
   }
   
   incrementView(video: VideoUpload) {
-    // Only increment views if the video hasn't been viewed yet
-    if (!this.viewedVideos.has(video.url)) { // Use a unique identifier for the video
+    
+    if (!this.viewedVideos.has(video.url)) { 
       this.videoUploadService.incrementView(video.id).subscribe(() => {
         video.views++;
       });
-      this.viewedVideos.add(video.url); // Add the video's URL to the set of viewed videos
+      this.viewedVideos.add(video.url);
     }
   }
-  
+
+
+  filterVideos(): void {
+   
+    console.log('Current search term:', this.searchTerm); 
+  if (this.searchTerm.trim() === '') {
+    this.filteredVideos = this.videos; 
+  } else {
+    this.filteredVideos = this.videos.filter(video =>
+      video.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+  console.log('Filtered videos:', this.filteredVideos);
+  }
+
+
+  getAllUsers() {
+    
+    const userId = this.authService.getUserId();
+    if (userId) { 
+      this.registrationService.getUserNameById(userId).subscribe(
+        username => {
+          
+          this.usernames = username;
+          console.log('Username:', username);
+          
+        },
+        error => {
+          console.error('Error fetching username:', error);
+        }
+      );
+      
+    }
+    
+  }
+
   }
 
   
