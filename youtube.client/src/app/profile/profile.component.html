@@ -1,0 +1,55 @@
+
+<div class="container">
+    <div class="icon-container">
+        <img *ngIf="userProfilePic; else defaultIcon" [src]="userProfilePic" alt="Profile Picture" class="profile-pic" />
+        <ng-template #defaultIcon>
+          <span>👤</span>
+          
+        </ng-template>
+    </div>
+    <div class="info" style="width: 50%;">
+        <h1><span>{{ user.email }}</span></h1>
+        <h2><span>{{ user.userName }}</span></h2>
+         <div class="channel-actions">
+            <button (click)="customizeChannel()" class="video">Customize Channel</button>
+            <button (click)="manageVideos()" class="video">Manage Videos</button>
+        </div>
+    </div>
+    
+</div>
+
+
+
+
+
+<!-- <div class="container">
+    <h1>{{ user.email }}</h1>
+    <h2>{{ user.userName }}</h2>
+  
+    <div class="image-container">
+        <div class="icon-container">
+            <img *ngIf="userProfilePic; else defaultIcon" [src]="userProfilePic" alt="Profile Picture" class="profile-pic" />
+            <ng-template #defaultIcon>
+              <span>👤</span>
+              
+            </ng-template>
+        </div>
+      <div class="overlay">
+        <div class="channel-info">
+          <p>More about this channel:</p>
+          <!-- <p>{{ user.channelDescription }}</p> -->
+          <!-- <button (click)="toggleMoreInfo()">{{ showMore ? 'Show Less' : '...more' }}</button> -->
+          <!-- <div *ngIf="showMore" class="more-info">
+            <!-- Additional channel information can go here -->
+            <!-- <p>Additional details about the channel...</p> -->
+          <!-- </div> -->
+        <!-- </div>
+      </div>
+    </div>
+   --> 
+    <!-- <div class="channel-actions">
+      <button (click)="customizeChannel()">Customize Channel</button>
+      <button (click)="manageVideos()">Manage Videos</button>
+    </div> -->
+  
+  

@@ -135,4 +135,11 @@ public class VideoRepository : IVideoRepository
             await _context.SaveChangesAsync();
         }
     }
+
+
+    public async Task DeleteRangeAsync(IEnumerable<Video> videos)
+    {
+        _context.Videos.RemoveRange(videos);
+        await _context.SaveChangesAsync();
+    }
 }

@@ -43,8 +43,7 @@
 
 
 .icon-container {
-  position: relative;
-  cursor: pointer; 
+  position: relative; /* Ensure this is set */
 }
 
 .dropdown-menu {
@@ -56,12 +55,29 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   z-index: 10; 
 }
+.dropdown-menu {
+  position: absolute;
+  top: 100%; 
+  right: 0; 
+  transform: translateX(calc(-100% + 60px)); /* Adjust this as needed */
+  max-width: 200px; /* Prevents overflow */
+  background-color: white; 
+  border: 1px solid #ccc; 
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10; 
+  display: none; /* Hidden by default */
+}
+
+.icon-container .dropdown-menu {
+  display: block; /* Show when dropdown is open */
+}
+
 
 .dropdown-menu ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  width: 100px;
+  /* width: 100px; */
 }
 
 .dropdown-menu li {
@@ -101,6 +117,8 @@ video {
 }
 
 .video-item {
+  width: 400px; /* Set a fixed width */
+  overflow: hidden;
   margin: 10px;
   position: relative;
 }
@@ -133,14 +151,6 @@ video {
   border-radius: 50%;
 }
 
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: white; 
-  border: 1px solid #ccc; 
-  z-index: 1000; 
-}
 
 
 
@@ -162,18 +172,14 @@ video {
   overflow: hidden;          
 }
 
-.video-title {
-  flex: 1; 
-  min-width: 0;
-  overflow: hidden;        
-  /* white-space: nowrap;      */
-  text-overflow: ellipsis; 
-}
+
 
 .title {
   margin: 0;               
   font-size: 1.2em;       
   max-width: 100%; 
+  text-align: left;
+  margin-left: 10px;
 }
 
 .video-icons {
@@ -194,9 +200,9 @@ video {
 }
 
 .search-input {
-  padding: 8px;
+  padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 10px;
   width: 300px; 
 }
 
@@ -243,4 +249,85 @@ video {
 .fa-bell{
   padding: 10px;
   color: gold;
+}
+
+
+
+
+
+
+.video-title {
+  display: flex;
+  align-items: center; /* Vertically center items */
+  gap: 10px; /* Space between elements */
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+}
+
+.user-profile-pic {
+  width: 40px; /* Adjust size as needed */
+  height: 40px;
+  border-radius: 50%; /* Circular */
+  object-fit: cover; /* Ensure the image fits nicely */
+}
+
+.default-icon {
+  font-size: 40px; /* Size of the default icon */
+}
+
+.user-name {
+  font-weight: bold; /* Optional: make the name bold */
+}
+
+.subscribe-button {
+  background-color: gray; /* YouTube red */
+  color: white;
+  border: none;
+  padding: 5px 10px; /* Adjust padding */
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+
+
+
+
+.video-description {
+  position: relative;
+  max-height: 4em; /* Space for two lines */
+  overflow: hidden;
+}
+
+.description-text {
+  line-height: 1.5em; /* Adjust as needed */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* Limit to 2 lines */
+}
+
+.truncated-text {
+  display: inline; /* Allow text to flow inline */
+}
+
+.show-more {
+  display: inline; /* Position the button inline */
+  margin-left: 5px; /* Space between text and button */
+}
+
+.read-more-button {
+  background: none; /* Remove default button styles */
+  border: none;
+  color: blue; /* Change to your preferred color */
+  cursor: pointer;
+  padding: 0;
+  font-size: inherit; /* Maintain font size */
+}
+.large-video {
+  width: 120%; /* Adjust size as needed */
+  height: auto;
+  position: relative; /* Keep it in flow */
+  z-index: 10; /* Bring it above other elements */
 }

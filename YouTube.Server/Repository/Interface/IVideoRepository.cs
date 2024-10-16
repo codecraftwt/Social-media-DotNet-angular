@@ -15,6 +15,7 @@ namespace YouTube.Server.Repository.IRepository
         Task IncrementDislikesAsync(int id);
         Task IncrementViewAsync(int id);
         Task<Video> GetVideoByIdAsync(int id);
+        Task DeleteRangeAsync(IEnumerable<Video> videos);
 
     }
 }

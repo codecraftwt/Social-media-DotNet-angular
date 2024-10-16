@@ -1,0 +1,111 @@
+<div class="container d-flex">
+  <!-- Main Video Container -->
+  <div class="main-video">
+    <div *ngIf="video">
+      <video controls preload="metadata" [src]="video.url" [poster]="video.thumbnail" class="img-fluid w-100" autoplay>
+        Your browser does not support the video tag.
+      </video>
+      <h1 class="mt-3">{{ video.title }}</h1>
+
+      <div class="video-info mt-3 d-flex justify-content-between align-items-center">
+        <div class="video-title d-flex align-items-center">
+          <div class="user-profile d-flex align-items-center">
+            <ng-container *ngIf="getUserProfilePic(video.userId) !== 'assets/images/defaultProfilePic.jpg'; else defaultUserIcon">
+              <img [src]="getUserProfilePic(video.userId)" alt="User Profile" class="user-profile-pic rounded-circle" />
+            </ng-container>
+
+            <ng-template #defaultUserIcon>
+              <span class="default-icon">👤</span>
+            </ng-template>
+            <span class="ml-2">{{ getUserFullName(video.userId) }}</span>
+          </div>
+
+          <div class="ml-2 d-flex align-items-center">
+            <button *ngIf="video.isSubscribed; else subscribeTemplate" class="subscribe-button btn btn-secondary">Subscribed</button>
+            <ng-template #subscribeTemplate>
+              <button (click)="subscribe()" class="subscribe-button btn btn-primary">Subscribe</button>
+            </ng-template>
+          </div>
+        </div>
+
+        <div class="video-icons d-flex align-items-center">
+          <span class="like-icon" (click)="incrementLike(video)" class="mr-3">
+            <i class="fa fa-thumbs-up"></i>
+            <span class="count">{{ video.likes ?? 0 }}</span>
+          </span>
+          <span class="dislike-icon mr-3" (click)="incrementUnlike(video)">
+            <i class="fa-solid fa-thumbs-down"></i>
+            <span class="count">{{ video.dislikes ?? 0 }}</span>
+          </span>
+          <span class="view-icon">
+            <i class="fa-solid fa-eye"></i>
+            <span class="count">{{ video.views ?? 0 }}</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="video-description mt-3">
+        <p *ngIf="!videoDescriptionExpanded[video.id]" class="description-text">
+          <span class="truncated-text">{{ video.description | slice: 0:100 }}</span>
+          <span *ngIf="video.description.length > 100">...</span>
+          <button *ngIf="video.description.length > 100" (click)="toggleDescription(video.id)" class="read-more-button btn btn-link">Show More</button>
+        </p>
+        <p *ngIf="videoDescriptionExpanded[video.id]">{{ video.description }}</p>
+        <button *ngIf="videoDescriptionExpanded[video.id]" (click)="toggleDescription(video.id)" class="read-more-button btn btn-link">Show Less</button>
+      </div>
+
+
+      <div class="comment-section mt-3">
+        <div class="d-flex align-items-start">
+          <img *ngIf="userProfilePic; else defaultIcon"  [src]="userProfilePic" alt="User Profile" class="user-profile-user rounded-circle" />
+          
+      <ng-template #defaultIcon>
+        <span>👤</span>
+        
+      </ng-template>
+          <form #commentForm="ngForm" (submit)="addComment()" class="ml-2 flex-grow-1">
+            <div class="form-group mb-0">
+              <input 
+                type="text" 
+                class="comment-input" 
+                name="comment" 
+                required 
+                placeholder="Add a comment..." 
+                [(ngModel)]="newCommentText"
+                (focus)="onInputFocus()" 
+                (blur)="onInputBlur()" />
+            </div>
+           
+            <div *ngIf="showButtons" class="button-group d-flex justify-content-end">
+              <button type="button" class="btn btn-secondary mr-2 custom-button" (click)="newCommentText = ''; showButtons = false;">Cancel</button>
+              <button type="submit" class="btn btn-primary custom-button">Comment</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      
+    </div>
+  </div>
+
+  <!-- Remaining Videos Container -->
+  <div class="remaining-videos">
+    <div *ngFor="let video of filteredVideos" class="video-item">
+      <video class="styled-video" 
+             controls 
+             preload="metadata" 
+             [poster]="video.thumbnail" 
+             (click)="handleVideoClick(video)">
+        <source [src]="video.url" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      
+      <h3 class="video-title-video">{{ video.title }}</h3>
+      <span class="name">{{ getUserFullName(video.userId) }}</span>
+      <span class="count1">{{ video.views ?? 0 }} views</span>
+    </div>
+  </div>
+  
+  
+
+</div>

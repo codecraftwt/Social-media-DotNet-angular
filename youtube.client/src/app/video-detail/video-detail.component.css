@@ -1,0 +1,136 @@
+
+
+.user-profile-pic {
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%;
+  }
+ 
+
+
+
+  .container {
+    display: flex;
+    max-width: 100%;
+  }
+  
+  .main-video {
+    flex: 0 0 60%; 
+    margin-left: 50px;
+  }
+  
+  .remaining-videos {
+    flex: 0 0 20%; /* Takes 20% of the page width */
+    margin-left: 1rem; /* Space between the two containers */
+  }
+  
+  .video-item {
+    position: relative; /* Required for absolute positioning of title */
+    margin-bottom: 15px; /* Space between video items */
+    width: 100%; /* Make each video item take full width */
+    max-width: 400px; /* Set a maximum width for the video item */
+  }
+  
+  .styled-video {
+    width: 100%; /* Make videos responsive */
+    height: 300px; /* Set a fixed height for all videos */
+    object-fit: cover; /* Cover the area without stretching */
+  }
+
+  .video-description{
+    background-color: gray;
+    border-radius: 10px;
+    color: white;
+  }
+
+
+  .comment-input {
+    border: none; /* Remove all borders */
+    border-bottom: 1px solid #ccc; /* Add a bottom border */
+    outline: none; /* Remove the outline when focused */
+    padding: 5px 0; /* Add some vertical padding */
+    width: 100%; /* Ensure it takes full width */
+    font-size: 16px; /* Adjust font size as needed */
+  }
+  
+  .comment-input:focus {
+    border-bottom: 1px solid #007bff; /* Change bottom border color on focus */
+  }
+  
+
+  .user-profile-user{
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%;
+    margin-right: 10px; 
+    align-self: flex-start;
+  }
+
+  .subscribe-button{
+    border-radius: 50px;
+  }
+
+  .button-group {
+    margin-top: 5px; 
+    border-radius: 50px;
+  }
+  .custom-button{
+    border-radius: 50px;
+  }
+
+
+  
+
+
+  .remaining-videos {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: flex-start; /* Align items to the start (left) */
+    padding: 20px; /* Add padding if needed */
+  }
+  
+  .video-item {
+    position: relative; /* Required for absolute positioning of child elements */
+    margin-bottom: 15px; /* Space between video items */
+    width: 100%; /* Make each video item take full width */
+    max-width: 400px; /* Set a maximum width for the video item */
+  }
+  
+  .styled-video {
+    width: 100%; /* Make videos responsive */
+    height: 300px; /* Set a fixed height for all videos */
+    object-fit: cover; /* Cover the area without stretching */
+  }
+  
+  .video-title-video,
+  .name,
+  .count1 {
+    position: absolute; /* Position all elements absolutely */
+    /* color: white; Change color to make it visible */
+    padding: 5px; /* Padding for visibility */
+    border-radius: 5px; 
+     margin-top: 5px; 
+  }
+  
+  .video-title-video {
+    height: 20px;
+    left: 400px;
+    top: 20px;
+    width: 200px;
+  }
+  
+  .name {
+    left: 400px;
+    top: 60px;
+    width: 200px;
+  }
+  
+  .count1 {
+    left: 400px;
+    top: 90px;
+    width: 200px;
+  }
+  .img-fluid{
+    border-radius: 50px;
+  }
+  

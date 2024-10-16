@@ -16,18 +16,19 @@ namespace YouTube.Server.Controller
     public class VideosController : ControllerBase
     {
         private readonly IVideoRepository _videoRepository;
+        private readonly IUserVideoViewRepository _userVideoViewRepository;
         private readonly string _videoPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "UploadedVideos");
 
-        public VideosController(IVideoRepository videoRepository)
+        public VideosController(IVideoRepository videoRepository,IUserVideoViewRepository userVideoViewRepository)
         {
-
+            _userVideoViewRepository = userVideoViewRepository;
             _videoRepository = videoRepository;
         }
 
         // GET: api/videos
         [HttpGet]
         [Route("getVideos")]
-        public async Task<ActionResult<IEnumerable<Video>>> GetVideos() 
+        public async Task<ActionResult<IEnumerable<Video>>> GetVideos()
         {
             try
             {
@@ -53,15 +54,39 @@ namespace YouTube.Server.Controller
 
 
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/video")]
         public async Task<ActionResult<Video>> GetVideo(int id)
-        {
-            var video = await _videoRepository.GetByIdAsync(id);
-            if (video == null)
+         {
+          
+            try
             {
-                return NotFound();
+                var video = await _videoRepository.GetVideoByIdAsync(id);
+
+                if (video == null)
+                {
+                    return NotFound("Video not found.");
+                }
+
+                var videoDto = new Video
+                {
+                    Id = video.Id,
+                    Url = video.Url,
+                    Thumbnail = video.Thumbnail,
+                    Likes = video.Likes,
+                    Dislikes = video.Dislikes,
+                    Views = video.Views,
+                    Title = video.Title,
+                    Description = video.Description,
+                    UserId=video.UserId
+                };
+
+                return Ok(videoDto);
             }
-            return Ok(video);
+            catch (Exception ex)
+            {
+                // Log the exception (optional)
+                return StatusCode(500, "Internal server error.");
+            };
         }
 
         // POST: api/videos/addVideo
@@ -89,16 +114,16 @@ namespace YouTube.Server.Controller
         }
 
         // DELETE: api/videos/deleteVideo/5
-        [HttpDelete("deleteVideo/{id}")]
+        [HttpDelete("{id}/deleteVideo")]
         public async Task<IActionResult> DeleteVideo(int id)
         {
             await _videoRepository.DeleteAsync(id);
             return NoContent();
         }
 
-
+      
         [HttpPost("UploadVideo")]
-        public async Task<ActionResult> UploadVideoFile([FromForm] int userId, [FromForm] IFormFile fileupload, [FromForm] IFormFile thumbnailUpload, [FromForm] string title)
+        public async Task<ActionResult> UploadVideoFile([FromForm] int userId, [FromForm] IFormFile fileupload, [FromForm] IFormFile thumbnailUpload, [FromForm] string title, [FromForm] string description)
         {
             try
             {
@@ -165,7 +190,8 @@ namespace YouTube.Server.Controller
                     UserId = userId,
                     Url = Url.Content($"~/UploadedVideos/{Path.GetFileName(videoFilePath)}"),
                     Thumbnail = Url.Content($"~/UploadedThumbnails/{Path.GetFileName(thumbnailFilePath)}"),
-                    Title = title
+                    Title = title,
+                    Description = description,
                 };
 
                 await _videoRepository.AddAsync(videoUpload);
@@ -189,7 +215,7 @@ namespace YouTube.Server.Controller
 
 
         [HttpGet("GetVideoAll")]
-        public async Task<ActionResult<List<VideoDto>>> GetVideo()
+        public async Task<ActionResult<List<Video>>> GetVideo()
         {
             try
             {
@@ -200,7 +226,7 @@ namespace YouTube.Server.Controller
                     return NotFound("No videos found.");
                 }
 
-                var videoDtos = videos.Select(v => new VideoDto
+                var videoDtos = videos.Select(v => new Video
                 {
                     Id = v.Id,
                     Url = v.Url, 
@@ -209,6 +235,8 @@ namespace YouTube.Server.Controller
                     Dislikes = v.Dislikes, 
                     Views = v.Views,
                     Title = v.Title,
+                    Description = v.Description,
+                    UserId = v.UserId,
 
                 }).ToList();
 
@@ -247,6 +275,29 @@ namespace YouTube.Server.Controller
             return NoContent();
         }
 
+        [HttpPut("{userId}/view/{videoId}")]
+        public async Task<IActionResult> IncrementViewByUser(int userId, int videoId)
+        {
+            // Check if the user has already viewed this video
+            if (await _userVideoViewRepository.HasUserViewedVideoAsync(userId, videoId))
+            {
+                return BadRequest("You have already viewed this video.");
+            }
+
+            // Increment the view count in the video repository
+            await _videoRepository.IncrementViewAsync(videoId);
+
+            // Log the view for this user
+            var userVideoView = new UserVideoView
+            {
+                UserId = userId,
+                VideoId = videoId
+            };
+            await _userVideoViewRepository.AddUserVideoViewAsync(userVideoView);
+
+            return NoContent();
+        }
+
 
 
         [HttpGet("{id}/GetVideosByUserId")]
@@ -270,6 +321,7 @@ namespace YouTube.Server.Controller
                     Dislikes = v.Dislikes,
                     Views = v.Views,
                     Title = v.Title,
+                    Description = v.Description
 
                 }).ToList();
 
@@ -283,6 +335,27 @@ namespace YouTube.Server.Controller
         }
 
 
+        // DELETE: api/videos/user/{userId}
+        [HttpDelete("{userId}/user")]
+        public async Task<IActionResult> DeleteVideosByUserId(int userId)
+        {
+            try
+            {
+                var videos = await _videoRepository.GetVideosByUserIdAsync(userId);
+
+                if (videos == null || !videos.Any())
+                {
+                    return NotFound("No videos found for this user.");
+                }
+
+                await _videoRepository.DeleteRangeAsync(videos);
+                return NoContent(); // 204 No Content
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
 
     }
 }

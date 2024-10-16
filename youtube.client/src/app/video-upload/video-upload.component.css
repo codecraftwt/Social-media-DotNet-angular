@@ -1,12 +1,3 @@
-.container {
-    max-width: 500px; /* Limit the width of the form */
-    margin: 50px auto; /* Center the container */
-    padding: 20px; /* Add padding inside the container */
-    border: 1px solid #ccc; /* Add a border */
-    border-radius: 8px; /* Round the corners */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add shadow */
-    background-color: #fff; /* White background */
-}
 
 h1 {
     text-align: center; /* Center the title */
@@ -29,14 +20,16 @@ input[type="file"] {
 }
 
 button {
-    width: 100%; /* Full width */
-    padding: 10px; /* Padding inside the button */
-    background-color: #28a745; /* Green background */
-    color: white; /* White text */
-    border: none; /* No border */
-    border-radius: 4px; /* Rounded corners */
-    font-size: 16px; /* Font size */
-    cursor: pointer; /* Pointer on hover */
+    
+    padding: 10px;
+    background-color: #0d6efd;
+    color: #000;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    height: 50px;
+
 }
 
 button:disabled {
@@ -53,3 +46,83 @@ div {
     text-align: center; /* Center the message */
     color: black; /* Red color for the message */
 }
+
+
+
+
+
+
+
+
+
+
+.video-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .video-table th, .video-table td {
+    /* border: 1px solid #ddd; */
+    padding: 8px;
+  }
+  
+  .video-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .video-table td {
+    text-align: left;
+  }
+  
+  /* Set fixed widths for each column */
+  .video-table th:nth-child(1),
+  .video-table td:nth-child(1) {
+    width: 30%; /* Adjust as necessary */
+  }
+  
+  .video-table th:nth-child(2),
+  .video-table td:nth-child(2) {
+    width: 50%; /* Adjust as necessary */
+  }
+  
+  .video-table th:nth-child(3),
+  .video-table td:nth-child(3) {
+    /* width: 20%; Adjust as necessary */
+  }
+  .info{
+    display: flex;
+    flex-direction: row;
+  }
+  .container {
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .butt{
+    width:50%;
+    padding-left: 40%;
+    margin-bottom: 10px;
+  }
+  .ms-2 {
+    margin-left: .5rem !important;
+    height: 50px;
+    border-radius: 20px;
+    padding-top: 10px;
+}
+.btn-secondary:hover {
+    background-color: green; /* Darker background color on hover */
+    color: white; /* Text color on hover (optional) */
+  }
+  .btn-close{
+    height: 20px;
+    background-color: red;
+    color: black;
+  }
+
+  .modal-content{
+    border-radius: 20px;
+  }

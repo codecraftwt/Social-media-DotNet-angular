@@ -10,6 +10,8 @@ namespace YouTube.Server.Data
         public DbSet<Video> Videos { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<Token> Tokens { get; set; }
+        public DbSet<UserVideoView> UserVideoView { get; set; }
+        public DbSet<Subscribed> Subscribe { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

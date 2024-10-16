@@ -53,13 +53,14 @@ export class VideoUploadService  {
   
 
 
-  uploadVideo(userId: number,videoFile: File, thumbnailFile: File, title:string): Observable<any> {
-  
+  uploadVideo(userId: number,videoFile: File, thumbnailFile: File, title:string,videoDescription:string): Observable<any> {
+  debugger
     const formData = new FormData();
     formData.append('userId',userId.toString())
     formData.append('fileupload', videoFile);
     formData.append('thumbnailUpload', thumbnailFile);
     formData.append('title', title);
+    formData.append('description',videoDescription)
     
     return this.http.post(`${this.apiUrl}/UploadVideo`, formData,{headers:this.createHeadersVideo()});
   }
@@ -91,7 +92,8 @@ export class VideoUploadService  {
           Likes: video.likes || 0,       // Ensure Likes is set
           Dislikes: video.dislikes || 0,   // Ensure Dislikes is set
           Views: video.views || 0   ,
-          title : video.title
+          title : video.title,
+          description : video.description
         };
       }))
     );
@@ -110,13 +112,18 @@ export class VideoUploadService  {
   }
 
   // Increment views
-  incrementView(videoId: number): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/${videoId}/view`,{}, {headers:this.createHeaders()});
+  // incrementView(videoId: number): Observable<void> {
+  //   return this.http.put<void>(`${this.apiUrl}/${videoId}/view`,{}, {headers:this.createHeaders()});
+  // }
+
+
+  incrementView(videoId : number,UserId:number):Observable<void>{
+    return this.http.put<void>(`${this.apiUrl}/${UserId}/view/${videoId}`,{},{headers:this.createHeaders()})
   }
 
 
   getUserVideos(Id: number): Observable<VideoUpload[]> {
-
+    debugger
     return this.http.get<VideoUpload[]>(`${this.apiUrl}/${Id}/GetVideosByUserId`, {
       headers:this.createHeaders() // Pass the headers here
     }).pipe(
@@ -139,6 +146,38 @@ export class VideoUploadService  {
     );
   }
    
+
+  deleteVideo(userId: number): Observable<any> {
+    debugger
+    return this.http.delete(`${this.apiUrl}/${userId}/user`, { headers: this.createHeaders() });
+  }
+  
+
+
+  getVideoById(videoId: number): Observable<VideoUpload> {
+    return this.http.get<VideoUpload>(`${this.apiUrl}/${videoId}/video`, {
+      headers: this.createHeaders() // Pass the headers here
+    }).pipe(
+      tap(response => console.log('API Response:', response)),
+      map(video => {
+        const Url = `${environment.baseUrl}/${video.url}`; // Construct video URL
+        const Thumbnail = `${environment.baseUrl}/${video.thumbnail}`; // Construct thumbnail URL
+        console.log('Video URL:', Url); // Log constructed video URL
+        console.log('Thumbnail URL:', Thumbnail); // Log constructed thumbnail URL
+        
+        return {
+          ...video,
+          url: Url,
+          thumbnail: Thumbnail,
+          Likes: video.likes || 0,       // Ensure Likes is set
+          Dislikes: video.dislikes || 0,  // Ensure Dislikes is set
+          Views: video.views || 0         // Ensure Views is set
+        };
+      })
+    );
+  }
+  
+  
   
 }
   

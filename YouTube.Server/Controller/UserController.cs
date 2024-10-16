@@ -28,7 +28,7 @@ namespace YouTube.Server.Controller
         }
 
         // GET: api/users
-        [HttpGet]
+        [HttpGet("All")]
        // [Authorize]
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
@@ -140,7 +140,7 @@ namespace YouTube.Server.Controller
         }
 
         // DELETE: api/users/{id}
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}/delete")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             await _userRepository.DeleteUserAsync(id);

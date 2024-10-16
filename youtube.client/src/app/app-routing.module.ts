@@ -6,6 +6,8 @@ import { UserLoginComponent } from './user-login/user-login.component';
 import { VideoUploadComponent } from './video-upload/video-upload.component';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { UserVideoComponent } from './user-video/user-video.component';
+import { ProfileComponent } from './profile/profile.component';
+import { VideoDetailComponent } from './video-detail/video-detail.component';
 
 const routes: Routes = [
   {path: 'register', component: RegisterComponent},
@@ -13,7 +15,11 @@ const routes: Routes = [
   {path:'', component: UserLoginComponent},
   {path:'upload', component:VideoUploadComponent},
   {path:'edit-profile', component:ProfileEditComponent},
-  {path:'user-video', component:UserVideoComponent}
+  {path:'user-video', component:UserVideoComponent},
+  {path:'profile', component:ProfileComponent},
+  {
+    path:'video/:id', component:VideoDetailComponent
+  }
 ];
 
 @NgModule({

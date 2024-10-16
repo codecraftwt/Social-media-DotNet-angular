@@ -1,10 +1,13 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, numberAttribute } from '@angular/core';
 import { VideoUploadService } from '../../services/video-upload.service';
 import { VideoUpload } from '../../model/VideoUpload';
 import Swal from 'sweetalert2';
 import { RegistrationService } from '../../services/registration.service';
 import { AuthService } from '../../services/AuthService ';
 import { Video } from '../../model/Video';
+import { Router } from '@angular/router';
+import { EditProfile } from '../../model/EditProfile';
+import { SubscriptionService } from '../../services/subscription.service';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +16,15 @@ import { Video } from '../../model/Video';
 })
 export class HeaderComponent {
   
+  user: EditProfile = {
+    id:0,
+    email: '',
+    fullName: '',
+    userName: '',
+    profilePic:''
+  };
+  buttonText: string = 'Subscribe';
+  users: EditProfile[] = [];
   //videos: string[] = [];
   videos: VideoUpload[] = [];
   @Input() video!: Video;
@@ -22,16 +34,38 @@ export class HeaderComponent {
   userProfilePic: string | undefined;
   private viewedVideos: Set<string> = new Set();
   filteredVideos: VideoUpload[] = [];
+  filteredVideos1: VideoUpload[] = [];
   searchTerm: string = ''; 
   usernames: string = '';
+  isSubscribed: boolean = false; 
+  currentUserId:number = 0;
+  isSubscribedMap: { [key: number]: boolean } = {};
+  videoDescriptionExpanded: { [key: number]: boolean } = {};
+  selectedVideoId: number | null = null;
 
-  constructor(private videoUploadService: VideoUploadService,private registrationService: RegistrationService,private authService: AuthService,private cdr: ChangeDetectorRef) {
+
+
+
+  constructor(
+    private videoUploadService: VideoUploadService,
+    private registrationService: RegistrationService,
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef ,
+    private router: Router,
+    private subscribedService: SubscriptionService) 
+    {
      this.ImagePath = '/assets/images/Like.png'
   }
   ngOnInit(): void {
     this.loadVideos();
     this.loadUserProfile();
     this.getAllUsers();
+    const userId = this.authService.getUserId();
+    if (userId !== null) {
+    this.getUserData(userId);
+   }
+   this.getAllUser();
+  
   }
   
   loadUserProfile() {
@@ -51,6 +85,20 @@ export class HeaderComponent {
     }
   }
   
+  getUserData(id: number) {
+    
+    this.registrationService.getUser(id).subscribe(
+      (userData: EditProfile) => {
+        this.user = userData; 
+        
+        console.log(this.user)
+
+      },
+      (error) => {
+        console.error('Error fetching user data:', error);
+      }
+    );
+  }
 
   loadVideos(): void {
 
@@ -62,9 +110,17 @@ export class HeaderComponent {
           Likes: video.likes ?? 0,
           Dislikes: video.dislikes ?? 0,
           Views: video.views ?? 0,
+          UserId: video.userId ?? null,
         }));
+  
         this.filteredVideos = this.videos;
         this.isLoading = false; 
+        this.videos.forEach(video => {
+          debugger
+          this.getUserProfilePic(video.userId);
+          this.getUserFullName(video.userId);
+          this.checkUserSubscription(video.userId);
+        });
         console.log('Processed video files:', this.videos);
       },
       error: (err) => {
@@ -79,8 +135,11 @@ export class HeaderComponent {
   isDropdownOpen = false;
 
   toggleDropdown() {
+    
     this.isDropdownOpen = !this.isDropdownOpen;
+    console.log('Dropdown toggled:', this.isDropdownOpen); 
   }
+  
 
   logout() {
     
@@ -110,13 +169,16 @@ export class HeaderComponent {
   }
   
   incrementView(video: VideoUpload) {
-    
+    debugger
+    const userId = this.authService.getUserId();
+    if (userId) { 
     if (!this.viewedVideos.has(video.url)) { 
-      this.videoUploadService.incrementView(video.id).subscribe(() => {
+      this.videoUploadService.incrementView(video.id,userId).subscribe(() => {
         video.views++;
       });
       this.viewedVideos.add(video.url);
     }
+  }
   }
 
 
@@ -154,7 +216,135 @@ export class HeaderComponent {
     
   }
 
+
+  deleteAccount() {
+   
+    const userId = this.authService.getUserId();
+    if (userId !== null) {
+      if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+        
+        this.videoUploadService.deleteVideo(userId).subscribe({
+          next: () => {
+            
+            this.registrationService.deleteUser(userId).subscribe({
+              next: () => {
+                alert('Account and associated videos deleted successfully.');
+                this.router.navigate(['/header']); 
+              },
+              error: (err) => {
+                alert('Error deleting account: ' + err.message);
+              }
+            });
+          },
+          error: (err) => {
+            alert('Error deleting videos: ' + err.message);
+          }
+        });
+      }
+    }
   }
+  
+  getUserProfilePic(userId: number): string {
+    const user = this.users.find(u => u.id === userId);
+    const profilePic = user && user.profilePic ? user.profilePic.replace(' ', '%20') : 'assets/images/defaultProfilePic.jpg'; 
+    console.log('Profile picture path:', profilePic); // Log the profile picture path
+    return profilePic;
+}
+
+getUserFullName(userId: number): string {
+  const user = this.users.find(u => u.id === userId);
+  return user ? `${user.fullName} ` : 'Unknown User'; // Adjust according to your user object structure
+}
 
   
+  getAllUser() {
+   
+    this.registrationService.getAll().subscribe(
+      (users: EditProfile[]) => {
+        this.users = users; // Ensure users are stored
+        console.log('All users fetched:', this.users);
+      },
+      (error) => {
+        console.error('Error fetching users:', error);
+      }
+    );
+  }
+  
 
+  subscribe() {
+    debugger
+    const userId = this.authService.getUserId();
+    if (this.buttonText === 'Subscribed') {
+      console.warn('Already subscribed');
+      return; // Exit if already subscribed
+    }
+
+    let subscribeby = null; // Initialize subscribeby
+
+    // Assuming you want to subscribe to the first video in this.videos
+    if (this.videos.length > 0) {
+        subscribeby = this.videos[0].userId; // Get userId of the first video
+    }
+
+    if (userId !== null) {
+    // Call a service to handle the subscription logic
+    this.subscribedService.subscribe(userId,subscribeby).subscribe(response => {
+      if (response.success) {
+        console.log('Subscribed successfully to user:', userId);
+        // Optionally, you can provide feedback to the user here
+      } else {
+        console.error('Subscription failed:', response.message);
+      }
+    });
+  }
+  }
+
+
+  checkUserSubscription(userId: number) {
+    debugger;
+    const currentUserId = this.authService.getUserId();
+
+    if (currentUserId === null) {
+        console.log("User ID is not available");
+        return; // Exit if no user ID
+    }
+
+    if (userId) {
+        // Call the API to check subscription status
+        this.subscribedService.isUserSubscribed(currentUserId, userId).subscribe({
+            next: isSubscribed => {
+                console.log(isSubscribed);
+                // Store the subscription status in the video
+                this.filteredVideos1 = this.videos.filter(v => v.userId === userId);
+                
+                if (this.filteredVideos1.length > 0) { // Check if there are filtered videos
+                    this.filteredVideos1.forEach(item => { // Corrected forEach usage
+                        item.isSubscribed = isSubscribed;
+                        console.log(item.isSubscribed); // Use 'item' instead of 'video'
+                    });
+                }
+
+                console.log(isSubscribed ? `Subscribed to user ${userId}` : `Not subscribed to user ${userId}`);
+            },
+            error: err => {
+                console.error(`Error checking subscription for user ${userId}:`, err);
+            }
+        });
+    } else {
+        console.log("Uploader ID is not available for video:", this.videos[0]?.title);
+    }
+}
+
+
+
+toggleDescription(videoId: number) {
+  this.videoDescriptionExpanded[videoId] = !this.videoDescriptionExpanded[videoId];
+}
+
+handleVideoClick(video: any) {
+  this.incrementView(video); // Increment the view count
+  this.router.navigate(['/video', video.id]);
+}      
+        }
+
+      

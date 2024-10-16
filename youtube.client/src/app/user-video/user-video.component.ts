@@ -51,7 +51,7 @@ export class UserVideoComponent {
   
 
   loadVideos(): void {
-   
+
     const userId = this.authService.getUserId();
     if (userId !== null) {
     this.videoUploadService.getUserVideos(userId).subscribe({
@@ -111,13 +111,16 @@ export class UserVideoComponent {
   }
   
   incrementView(video: VideoUpload) {
-    
+   debugger 
+    const userId = this.authService.getUserId();
+    if (userId) { 
     if (!this.viewedVideos.has(video.url)) { 
-      this.videoUploadService.incrementView(video.id).subscribe(() => {
+      this.videoUploadService.incrementView(video.id,userId).subscribe(() => {
         video.views++;
       });
-      this.viewedVideos.add(video.url); 
+      this.viewedVideos.add(video.url);
     }
+  }
   }
 
 

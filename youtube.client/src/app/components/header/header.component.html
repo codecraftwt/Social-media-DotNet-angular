@@ -33,7 +33,7 @@
           
               <li><a routerLink="/user-video">{{ usernames }}</a></li> 
            
-          
+              <li (click)="deleteAccount()">Delete Account</li>
             <li><a routerLink="/edit-profile">Edit Profile</a></li>
             <li><a routerLink="/">Logout</a></li>
         </ul>
@@ -51,15 +51,36 @@
   <div *ngIf="filteredVideos.length > 0; else noVideos">
     <div class="video-container">
       <div *ngFor="let video of filteredVideos" class="video-item">
-        <video class="styled-video" controls preload="metadata" [poster]="video.thumbnail" (click)="incrementView(video)">
+        <video class="styled-video" 
+         controls preload="metadata" [poster]="video.thumbnail" (click)="handleVideoClick(video)">
           <source [src]="video.url" type="video/mp4">
           Your browser does not support the video tag.
-        </video><br>
+        </video>
+
+
+        <h3 class="title">{{ video.title }}</h3> <br>
 
         <div class="video-info">
+
           <div class="video-title">
-            <h3 class="title">{{ video.title }}</h3> 
+            <div class="user-profile">
+              <ng-container *ngIf="getUserProfilePic(video.userId) !== 'assets/images/defaultProfilePic.jpg'; else defaultUserIcon">
+                <img [src]="getUserProfilePic(video.userId)" alt="User Profile" class="user-profile-pic" />
+              </ng-container>
+            
+              <ng-template #defaultUserIcon>
+                <span class="default-icon">👤</span>
+              </ng-template>
+            </div>
+            <span>{{ getUserFullName(video.userId) }}</span>
+            
+            <button *ngIf="video.isSubscribed; else subscribeTemplate" class="subscribe-button">Subscribed</button>
+         <ng-template #subscribeTemplate>
+            <button   (click)="subscribe()"class="subscribe-button">Subscribe</button>
+        </ng-template>
+            
           </div>
+          
           <div class="video-icons">
             <span class="like-icon" (click)="incrementLike(video)">
               <i class="fa fa-thumbs-up"></i>
@@ -76,7 +97,16 @@
           </div>
         </div>
       
-  
+        <div class="video-description">
+          <p *ngIf="!videoDescriptionExpanded[video.id]" class="description-text">
+            <span class="truncated-text">{{ video.description | slice: 0:100 }}</span>
+            <span *ngIf="video.description.length > 100">...</span>
+            <button *ngIf="video.description.length > 100" (click)="toggleDescription(video.id)" class="read-more-button">Show More</button>
+          </p>
+          <p *ngIf="videoDescriptionExpanded[video.id]">{{ video.description }}</p>
+          <button *ngIf="videoDescriptionExpanded[video.id]" (click)="toggleDescription(video.id)" class="read-more-button">Show Less</button>
+        </div>
+        
 
 
 

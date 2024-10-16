@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class ProfileEditComponent {
   user: EditProfile = {
+    id:0,
     email: '',
     fullName: '',
     userName: '',

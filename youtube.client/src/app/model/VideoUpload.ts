@@ -8,5 +8,8 @@ export interface VideoUpload {
    dislikes: number;   // Ensure this exists
    views: number; 
    title : string;
+   description : string;
+   userId:number;
+   isSubscribed?: boolean;
   }
   

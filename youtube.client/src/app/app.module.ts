@@ -12,6 +12,8 @@ import { UserLoginComponent } from './user-login/user-login.component';
 import { VideoUploadComponent } from './video-upload/video-upload.component';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { UserVideoComponent } from './user-video/user-video.component';
+import { ProfileComponent } from './profile/profile.component';
+import { VideoDetailComponent } from './video-detail/video-detail.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { UserVideoComponent } from './user-video/user-video.component';
     UserLoginComponent,
     VideoUploadComponent,
     ProfileEditComponent,
-    UserVideoComponent
+    UserVideoComponent,
+    ProfileComponent,
+    VideoDetailComponent
   ],
   imports: [
     BrowserModule,

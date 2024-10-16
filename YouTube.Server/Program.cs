@@ -81,6 +81,8 @@ builder.Services.AddDbContext<YourDbContext>(options =>
 builder.Services.AddScoped<IVideoRepository, VideoRepository>();
 builder.Services.AddScoped<IUser, UserRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<IUserVideoViewRepository, UserVideoViewRepository>();
+builder.Services.AddScoped<ISubscribedRepository, SubscribedRepository>();
 builder.Services.AddControllers();
 var app = builder.Build();
 

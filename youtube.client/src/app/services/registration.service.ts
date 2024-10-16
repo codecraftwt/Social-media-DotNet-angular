@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { User } from '../model/User';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
+import { catchError, forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
 import { LoginUser } from '../model/LoginUser';
 import { Token } from '@angular/compiler';
 import { BaseService } from './BaseService';
@@ -132,10 +132,34 @@ getUserNameById(userId: number): Observable<string> {
       return of(''); // Return an empty string or a default value in case of error
     })
   );
+  
 }
 
+deleteUser(id:number):Observable<any>{
+  return this.http.delete(`${this.rootController}/${id}/delete`,{ headers: this.createHeadersP()})
+}
 
+getAll(): Observable<EditProfile[]> {
+  return this.http.get<EditProfile[]>(`${this.rootController}/All`, { headers: this.createHeadersP() }).pipe(
+    
+    map(users => {
+      const profilePicRequests = users.map(user => 
+        this.getUserProfileById(user.id).pipe(
+          map(profile => ({ ...user, profilePic: profile.ProfilePic })) 
+        )
+      );
 
+      
+      return forkJoin(profilePicRequests); 
+    }),
+    
+    switchMap(profilePicObservables => profilePicObservables), 
+    catchError(error => {
+      console.error('Error fetching all users:', error);
+      return of([]); 
+    })
+  );
+}
 
 }
 

@@ -1,0 +1,48 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 20px;
+}
+
+.icon-container {
+    margin-right: 10px;
+    width: 50%;
+    text-align: right;
+}
+
+.profile-pic {
+    width: 100px; /* Adjust size as needed */
+    height: 100px; /* Adjust size as needed */
+    border-radius: 50%; /* Makes it a circle */
+}
+
+.email {
+    font-size: 1.5em; /* Adjust size as needed */
+}
+
+.role {
+    font-size: 1.2em; /* Adjust size as needed */
+    color: gray; /* Optional styling */
+}
+
+
+
+
+.info{
+    padding-left: 10px;
+    width: 50%;
+    text-align: left;
+}
+h1{
+    margin: 0px;
+    padding: 0px;
+}
+h2{
+    margin: 0px;
+    padding: 0px;
+}
+.video{
+    margin-right: 10px;
+    border-radius: 10px;
+}
