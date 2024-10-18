@@ -74,9 +74,9 @@ export class HeaderComponent {
     if (userId !== null) {
       this.registrationService.getUserProfileById(userId).subscribe({
         next: (user) => {
-          console.log('Fetched User Profile:', user);
+         
           this.userProfilePic = user.ProfilePic; 
-          console.log('Profile Picture URL:', this.userProfilePic);
+         
         },
         error: (err) => {
           console.error('Error loading user profile', err);
@@ -91,7 +91,7 @@ export class HeaderComponent {
       (userData: EditProfile) => {
         this.user = userData; 
         
-        console.log(this.user)
+      
 
       },
       (error) => {
@@ -104,7 +104,7 @@ export class HeaderComponent {
 
     this.videoUploadService.getVideos().subscribe({
       next: (videoFiles) => {
-        console.log('Video files from service:', videoFiles);
+        
         this.videos = videoFiles.map(video => ({
           ...video,
           Likes: video.likes ?? 0,
@@ -121,7 +121,7 @@ export class HeaderComponent {
           this.getUserFullName(video.userId);
           this.checkUserSubscription(video.userId);
         });
-        console.log('Processed video files:', this.videos);
+       
       },
       error: (err) => {
         console.error('Error loading videos', err);
@@ -137,13 +137,13 @@ export class HeaderComponent {
   toggleDropdown() {
     
     this.isDropdownOpen = !this.isDropdownOpen;
-    console.log('Dropdown toggled:', this.isDropdownOpen); 
+   
   }
   
 
   logout() {
     
-    console.log('User logged out');
+  
     this.isDropdownOpen = false; 
   }
 
@@ -154,7 +154,7 @@ export class HeaderComponent {
     this.videoUploadService.incrementLike(video.id).subscribe({
         next: () => {
             video.likes++;
-            console.log('Like incremented for video:', video.id);
+           
         },
         error: (err) => {
             console.error('Error incrementing like:', err);
@@ -184,7 +184,7 @@ export class HeaderComponent {
 
   filterVideos(): void {
    
-    console.log('Current search term:', this.searchTerm); 
+   
   if (this.searchTerm.trim() === '') {
     this.filteredVideos = this.videos; 
   } else {
@@ -204,7 +204,7 @@ export class HeaderComponent {
         username => {
           
           this.usernames = username;
-          console.log('Username:', username);
+         
           
         },
         error => {
@@ -247,7 +247,7 @@ export class HeaderComponent {
   getUserProfilePic(userId: number): string {
     const user = this.users.find(u => u.id === userId);
     const profilePic = user && user.profilePic ? user.profilePic.replace(' ', '%20') : 'assets/images/defaultProfilePic.jpg'; 
-    console.log('Profile picture path:', profilePic); // Log the profile picture path
+  
     return profilePic;
 }
 
@@ -262,7 +262,7 @@ getUserFullName(userId: number): string {
     this.registrationService.getAll().subscribe(
       (users: EditProfile[]) => {
         this.users = users; // Ensure users are stored
-        console.log('All users fetched:', this.users);
+        
       },
       (error) => {
         console.error('Error fetching users:', error);
@@ -305,7 +305,7 @@ getUserFullName(userId: number): string {
     const currentUserId = this.authService.getUserId();
 
     if (currentUserId === null) {
-        console.log("User ID is not available");
+      
         return; // Exit if no user ID
     }
 
@@ -313,18 +313,18 @@ getUserFullName(userId: number): string {
         // Call the API to check subscription status
         this.subscribedService.isUserSubscribed(currentUserId, userId).subscribe({
             next: isSubscribed => {
-                console.log(isSubscribed);
+               
                 // Store the subscription status in the video
                 this.filteredVideos1 = this.videos.filter(v => v.userId === userId);
                 
                 if (this.filteredVideos1.length > 0) { // Check if there are filtered videos
                     this.filteredVideos1.forEach(item => { // Corrected forEach usage
                         item.isSubscribed = isSubscribed;
-                        console.log(item.isSubscribed); // Use 'item' instead of 'video'
+                       
                     });
                 }
 
-                console.log(isSubscribed ? `Subscribed to user ${userId}` : `Not subscribed to user ${userId}`);
+              
             },
             error: err => {
                 console.error(`Error checking subscription for user ${userId}:`, err);

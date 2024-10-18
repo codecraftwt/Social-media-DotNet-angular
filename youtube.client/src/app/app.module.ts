@@ -14,6 +14,8 @@ import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { UserVideoComponent } from './user-video/user-video.component';
 import { ProfileComponent } from './profile/profile.component';
 import { VideoDetailComponent } from './video-detail/video-detail.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HeadComponent } from './head/head.component';
 
 
 @NgModule({
@@ -26,13 +28,15 @@ import { VideoDetailComponent } from './video-detail/video-detail.component';
     ProfileEditComponent,
     UserVideoComponent,
     ProfileComponent,
-    VideoDetailComponent
+    VideoDetailComponent,
+    HeadComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
+    NgbModule
     
   ],
   providers: [],

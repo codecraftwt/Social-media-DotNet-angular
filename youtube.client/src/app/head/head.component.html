@@ -1,0 +1,47 @@
+
+
+<nav class="navbar">
+    <div class="logo">
+      <i class="fab fa-youtube"></i> <!-- YouTube icon -->
+      <span class="youtube-text">YouTube</span>
+    </div>
+    <div class="search-container">
+      <input 
+        type="text" 
+        placeholder="Search..." 
+        class="search-input" 
+        [(ngModel)]="searchTerm" 
+        (input)="filterVideos()" 
+      />
+      <i class="fas fa-search"></i>
+    </div>
+  
+    <div class="icons">
+     
+      <a routerLink="/upload"><i class="fas fa-camera"></i></a>
+     
+      <!-- <i class="fas fa-bell"></i> -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+      <div class="icon-container" (click)="toggleDropdown()">
+        <img *ngIf="userProfilePic; else defaultIcon" [src]="userProfilePic" alt="Profile Picture" class="profile-pic" />
+        <ng-template #defaultIcon>
+          <span>👤</span>
+          
+        </ng-template>
+        <div *ngIf="isDropdownOpen" class="dropdown-menu">
+          <ul>
+            
+            
+                <li><a routerLink="/user-video">{{ usernames }}</a></li> 
+             
+                <li (click)="deleteAccount()">Delete Account</li>
+              <li><a routerLink="/edit-profile">Edit Profile</a></li>
+              <li><a routerLink="/">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  

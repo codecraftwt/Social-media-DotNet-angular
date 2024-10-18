@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, TemplateRef, ViewChild, viewChild } from '@angular/core';
 import { VideoUploadService } from '../services/video-upload.service';
 import { VideoUpload } from '../model/VideoUpload';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/AuthService ';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-video-upload',
@@ -11,9 +14,15 @@ import { AuthService } from '../services/AuthService ';
   styleUrl: './video-upload.component.css'
 })
 export class VideoUploadComponent {
+  @ViewChild('uploadModal')
+  uploadModal!: TemplateRef<any>;
+
+
+  modalRef!: NgbModalRef;
+
   isUploadVisible: boolean = false;
 
-  constructor(private videoUploadService: VideoUploadService,private router: Router,private authService: AuthService) {}
+  constructor(private videoUploadService: VideoUploadService,private router: Router,private authService: AuthService,  private modalService: NgbModal, private cdr: ChangeDetectorRef ) {}
 
 
   videos: VideoUpload[] = [];
@@ -61,7 +70,7 @@ export class VideoUploadComponent {
     const userId = this.authService.getUserId();
     if (userId !== null) {
       if (this.videoFile && this.thumbnailFile && this.videoTitle && this.videoDescription) {
-        this.videoUploadService.uploadVideo(userId, this.videoFile, this.thumbnailFile, this.videoTitle, this.videoDescription)
+        this.videoUploadService.uploadVideo(userId, this.videoFile, this.thumbnailFile, this.videoTitle, this.videoDescription,)
           .subscribe(
             response => {
               this.videoUrl = response.videoFilePath; 
@@ -100,6 +109,12 @@ export class VideoUploadComponent {
       }
     }
   }
+
+ 
+    openModal() {
+      this.modalRef = this.modalService.open(this.uploadModal, { ariaLabelledBy: 'modal-basic-title' });
+      this.cdr.detectChanges(); 
+    }
   
   private resetFields() {
     this.videoFile = null;

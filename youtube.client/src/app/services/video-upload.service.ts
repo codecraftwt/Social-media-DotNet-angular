@@ -169,9 +169,9 @@ export class VideoUploadService  {
           ...video,
           url: Url,
           thumbnail: Thumbnail,
-          Likes: video.likes || 0,       // Ensure Likes is set
-          Dislikes: video.dislikes || 0,  // Ensure Dislikes is set
-          Views: video.views || 0         // Ensure Views is set
+          Likes: video.likes || 0,       
+          Dislikes: video.dislikes || 0,  
+          Views: video.views || 0         
         };
       })
     );

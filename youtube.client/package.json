@@ -22,6 +22,7 @@
     "@angular/platform-browser-dynamic": "^18.1.0",
     "@angular/router": "^18.1.0",
     "@fortawesome/fontawesome-free": "^6.6.0",
+    "@ng-bootstrap/ng-bootstrap": "^17.0.1",
     "jest-editor-support": "*",
     "run-script-os": "*",
     "rxjs": "~7.8.0",

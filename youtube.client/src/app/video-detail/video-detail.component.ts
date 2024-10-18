@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VideoUploadService } from '../services/video-upload.service';
 import { EditProfile } from '../model/EditProfile';
@@ -7,6 +7,11 @@ import { AuthService } from '../services/AuthService ';
 import { VideoUpload } from '../model/VideoUpload';
 import { RegistrationService } from '../services/registration.service';
 import { catchError, map, Observable, of } from 'rxjs';
+import { CommentDto } from '../model/CommentDto';
+import { CommentService } from '../services/comment.service';
+import { NgForm } from '@angular/forms';
+import { ReplyDto } from '../model/ReplyDto';
+import { ReplyCommentService } from '../services/reply-comment.service';
 
 @Component({
   selector: 'app-video-detail',
@@ -14,6 +19,7 @@ import { catchError, map, Observable, of } from 'rxjs';
   styleUrl: './video-detail.component.css'
 })
 export class VideoDetailComponent {
+  
   user: EditProfile = {
     id:0,
     email: '',
@@ -22,32 +28,45 @@ export class VideoDetailComponent {
     profilePic:''
   };
 
-  showButtons: boolean = false; // To control button visibility
+  showButtons: boolean = false; 
+  showButtons1: boolean = false;
   newCommentText: string = '';
+  replyText :string='';
   isSubscribed: boolean = false; 
-  filteredVideos1: VideoUpload[] = [];
+ 
   filteredVideos: VideoUpload[] = [];
-  userProfilePic: string | undefined;
+  beforfilteredVideos: VideoUpload[] = [];
+  userProfilePic: string | null = 'path/to/profile-pic.jpg'; 
   videoId: number | null = null; // Declare as number | null
   video: any; // Define the type as needed
   isLoading: boolean = true; 
   users: EditProfile[] = [];
   buttonText: string = 'Subscribe';
-  usernames: string = '';
+  // usernames: string = '';
   videos: VideoUpload[] = [];
+  comments: CommentDto[] = [];
   private viewedVideos: Set<string> = new Set();
   videoDescriptionExpanded: { [key: number]: boolean } = {};
+  usernames: string | null = 'John Doe';
+  replyCount: { [key: number]: number } = {};
+  isSubscribedToUser: { [userId: number]: boolean } = {};
+  replyVisibility: { [commentId: number]: boolean } = {};
+  searchTerm: string = ''; 
+  
 
   constructor(
     private videoUploadService: VideoUploadService,
     private route: ActivatedRoute,
     private authService: AuthService,
     private registrationService: RegistrationService,
-    private subscribedService: SubscriptionService
-  ) {}
+    private subscribedService: SubscriptionService,
+    private commentService:CommentService,
+    private replyCommnetService : ReplyCommentService
+  ) {this.filteredVideos = this.videos;}
 
  
   ngOnInit(): void {
+    
     const idString = this.route.snapshot.paramMap.get('id'); // Get ID as string
 
     // Check if idString is not null and convert to number
@@ -57,6 +76,11 @@ export class VideoDetailComponent {
 
     // Fetch the video data using the videoId
     this.fetchVideoDetails(this.videoId);
+    if (this.videoId !== null) {
+      this.loadComments(this.videoId); // Check here
+  } else {
+      console.error('videoId is null, cannot load comments');
+  }
     const userId = this.authService.getUserId();
     if (userId !== null) {
     this.getUserData(userId);
@@ -65,9 +89,13 @@ export class VideoDetailComponent {
     ();
     this.loadVideos();
     this.loadUserProfile();
+    this.getAllUsers();
+    
+    
   }
 
   fetchVideoDetails(id: number | null) {
+ 
     if (id !== null) {
       this.videoUploadService.getVideoById(id).subscribe({
         next: (video) => {
@@ -78,22 +106,22 @@ export class VideoDetailComponent {
           this.checkUserSubscription(video.userId);
         },
         error: (err) => {
-          console.error('Error loading video details', err);
+         
           this.isLoading = false;
         },
       });
     } else {
-      console.error('Invalid video ID');
+      
       this.isLoading = false;
     }
   }
   getUserData(id: number) {
-    
+
     this.registrationService.getUser(id).subscribe(
       (userData: EditProfile) => {
         this.user = userData; 
         
-        console.log(this.user)
+      
 
       },
       (error) => {
@@ -107,7 +135,7 @@ export class VideoDetailComponent {
     this.registrationService.getAll().subscribe(
       (users: EditProfile[]) => {
         this.users = users; // Ensure users are stored
-        console.log('All users fetched:', this.users);
+      
       },
       (error) => {
         console.error('Error fetching users:', error);
@@ -118,7 +146,7 @@ export class VideoDetailComponent {
 
 
   getUserProfilePic(userId: number): string {
-   
+  
     const user = this.users.find(u => u.id === userId);
     return user && user.profilePic 
       ? user.profilePic.replace(' ', '%20') 
@@ -199,44 +227,33 @@ toggleDescription(videoId: number) {
 
 
 checkUserSubscription(userId: number) {
-
   const currentUserId = this.authService.getUserId();
 
   if (currentUserId === null) {
-      console.log("User ID is not available");
-      return; // Exit if no user ID
+   
+    return; // Exit if no user ID
   }
 
   if (userId) {
-      // Call the API to check subscription status
-      this.subscribedService.isUserSubscribed(currentUserId, userId).subscribe({
-          next: isSubscribed => {
-              console.log(isSubscribed);
-              // Store the subscription status in the video
-              this.filteredVideos1 = this.videos.filter(v => v.userId === userId);
-              
-              if (this.filteredVideos1.length > 0) { // Check if there are filtered videos
-                  this.filteredVideos1.forEach(item => { // Corrected forEach usage
-                      item.isSubscribed = isSubscribed;
-                      console.log(item.isSubscribed); // Use 'item' instead of 'video'
-                  });
-              }
-
-              console.log(isSubscribed ? `Subscribed to user ${userId}` : `Not subscribed to user ${userId}`);
-          },
-          error: err => {
-              console.error(`Error checking subscription for user ${userId}:`, err);
-          }
-      });
+    this.subscribedService.isUserSubscribed(currentUserId, userId).subscribe({
+      next: isSubscribed => {
+        this.isSubscribedToUser[userId] = isSubscribed; // Store in the new object
+       
+      },
+      error: err => {
+        console.error(`Error checking subscription for user ${userId}:`, err);
+      }
+    });
   } else {
-      console.log("Uploader ID is not available for video:", this.videos[0]?.title);
+    console.log("Uploader ID is not available for video.");
   }
 }
 
 loadVideos(): void {
+ 
   this.videoUploadService.getVideos().subscribe({
     next: (videoFiles) => {
-      console.log('Video files from service:', videoFiles);
+    
       this.videos = videoFiles.map(video => ({
         ...video,
         likes: video.likes ?? 0,
@@ -247,24 +264,30 @@ loadVideos(): void {
 
       // Exclude the currently displayed video
       this.filteredVideos = this.videos.filter(video => video.id !== this.videoId);
-
+      
       this.isLoading = false; 
       this.videos.forEach(video => {
         this.getUserProfilePic(video.userId);
         this.getUserFullName(video.userId);
         this.checkUserSubscription(video.userId);
       });
-      console.log('Processed video files:', this.videos);
+      this.beforfilteredVideos = this.videos;
+     
+     
     },
     error: (err) => {
       console.error('Error loading videos', err);
       this.isLoading = false; 
     },
   });
+ 
 }
 
 handleVideoClick(selectedVideo: VideoUpload): void {
+  debugger
+
   this.video = selectedVideo; 
+  this.loadComments(selectedVideo.id);
 }
 
 
@@ -280,10 +303,34 @@ onInputBlur() {
 }
 
 addComment() {
- 
-  this.newCommentText = ''; 
-  this.showButtons = false; 
+
+  const userId = this.authService.getUserId();
+  
+  if (userId && this.newCommentText.trim() && this.videoId !== null) {
+    const newComment: CommentDto = {
+      id:0,
+      videoId: this.videoId, 
+      userId: userId,
+      comment: this.newCommentText,
+      likes: 0,
+      dislikes:0
+    };
+
+    this.commentService.addComment(newComment).subscribe(
+      (comment) => {
+        this.comments.push(comment); 
+        this.newCommentText = ''; 
+      },
+      (error) => {
+        console.error('Error adding comment:', error);
+      }
+    );
+  } else {
+    console.error('Cannot add comment: userId, newCommentText, or videoId is invalid');
+  }
 }
+
+
 
 loadUserProfile() {
  
@@ -291,9 +338,9 @@ loadUserProfile() {
   if (userId !== null) {
     this.registrationService.getUserProfileById(userId).subscribe({
       next: (user) => {
-        console.log('Fetched User Profile:', user);
+       
         this.userProfilePic = user.ProfilePic; 
-        console.log('Profile Picture URL:', this.userProfilePic);
+       
       },
       error: (err) => {
         console.error('Error loading user profile', err);
@@ -301,5 +348,195 @@ loadUserProfile() {
     });
   }
 }
+
+getAllUsers() {
+    
+  const userId = this.authService.getUserId();
+  if (userId) { 
+    this.registrationService.getUserNameById(userId).subscribe(
+      username => {
+        
+        this.usernames = username;
+       
+        
+      },
+      error => {
+        console.error('Error fetching username:', error);
+      }
+    );
+    
+  }
+  
+}
+
+
+
+loadComments(videoId: number) {
+
+  const userId = this.authService.getUserId();
+  if (userId) { 
+  this.commentService.getCommentsByVideoId(videoId).subscribe(
+    (comments: CommentDto[]) => {
+      this.comments = comments; // Update the comments array with the fetched comments
+     
+      if (this.comments.length === 0) {
+      }
+
+      this.comments.forEach(comment => {
+        this.loadReplies(comment.id); 
+        this.replyVisibility[comment.id]=false;
+      });
+    },
+    (error) => {
+      console.error('Error fetching comments:', error);
+    }
+  );
+}
+}
+
+
+likeComment(comment: CommentDto) {
+ 
+  if (comment.id !== undefined) {
+  this.commentService.incrementLike(comment.id).subscribe({
+    next: () => {
+      comment.likes++;
+      
+    },
+    error: (err) => {
+      console.error('Error incrementing like:', err);
+      // Optionally, revert the UI update if needed
+    }
+  });
+}
+}
+
+dislikeComment(comment: CommentDto) {
+  if (comment.id !== undefined) {
+  this.commentService.incrementDislike(comment.id).subscribe({
+    next: () => {
+      comment.dislikes++;
+     
+    },
+    error: (err) => {
+      console.error('Error incrementing dislike:', err);
+      // Handle error if needed
+    }
+  });
+}
+}
+
+submitReply(commentId: number) {
+  
+  const userId = this.authService.getUserId();
+  
+  if (userId && this.replyText.trim()) {
+      const newReply: ReplyDto = {
+          commentId: commentId,
+          userId: userId,
+          replyText: this.replyText,
+          likes:0,
+          dislikes:0
+      };
+
+      this.replyCommnetService.addReply(commentId, newReply).subscribe(
+          (reply) => {
+              // Optionally load replies for the comment again
+              this.loadReplies(commentId);
+              this.replyText = ''; // Clear the reply input
+          },
+          (error) => {
+              console.error('Error adding reply:', error);
+          }
+      );
+  } else {
+      console.error('Cannot add reply: userId or replyText is invalid');
+  }
+}
+
+loadReplies(commentId: number) {
+  
+  if (!this.replyVisibility[commentId]) {
+  this.replyCommnetService.getRepliesForComment(commentId).subscribe(
+      (replies: ReplyDto[]) => {
+          const comment = this.comments.find(c => c.id === commentId);
+          if (comment) {
+              // Make sure replies is an array
+              comment.replies = Array.isArray(replies) ? replies : [replies];
+             
+              this.replyCount[commentId] = comment.replies.length;
+          }
+      },
+      (error) => {
+          console.error('Error loading replies:', error);
+      }
+  );
+}
+this.replyVisibility[commentId] = !this.replyVisibility[commentId]; 
+}
+
+
+
+
+cancelReply(comment:ReplyDto) {
+  comment.replyText = '';
+  comment.replyVisible = false;
+}
+
+onInputreplyFocus() {
+ 
+  this.showButtons1 = true;
+
+}
+
+
+onInputreplyBlur() {
+
+  if (!this.replyText) {
+    this.showButtons1 = false;
+  }
+}
+
+likeReply(reply: ReplyDto) {
+
+  if (reply && reply.id !== undefined) {
+    this.replyCommnetService.incrementLike(reply.id).subscribe({
+      next: () => {
+        reply.likes++;
+      
+      },
+      error: (err) => {
+        console.error('Error incrementing like for reply:', err);
+      }
+    });
+  } else {
+    console.error('Reply ID is undefined');
+  }
+}
+
+dislikeReply(reply: ReplyDto) {
+  if (reply && reply.id !== undefined) {
+    this.replyCommnetService.incrementDislike(reply.id).subscribe({
+      next: () => {
+        reply.dislikes++;
+        
+      },
+      error: (err) => {
+        console.error('Error incrementing dislike for reply:', err);
+      }
+    });
+  }
+}
+
+onVideosFiltered(filtered: VideoUpload[]): void {
+  if (filtered.length === 0) {
+    this.filteredVideos = this.beforfilteredVideos;
+  } else {
+    this.filteredVideos = filtered;
+  }
+  
+  console.log('Filtered Videos:', this.filteredVideos);
+}
+
 
 }

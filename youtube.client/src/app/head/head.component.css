@@ -1,0 +1,152 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+  }
+
+  .icons {
+    display: flex;
+    gap: 15px;
+  }
+  .icons i {
+    cursor: pointer;
+    font-size: 20px;
+    font-style: italic;
+
+  }
+  .youtube-icon {
+    font-size: 24px;
+    color: white;
+    margin-right: 10px;
+    background-color: red;
+    border-radius: 4px;
+}
+.bell-icon {
+  font-size: 24px;
+  color: white;
+  margin-right: 10px;
+}
+.icon-container {
+  width: 40px; 
+  height: 40px; 
+  border-radius: 50%;
+  background-color: #fff; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px; 
+}
+.profile-pic {
+    width: 40px; /* Adjust as needed */
+    height: 40px; /* Adjust as needed */
+    border-radius: 50%; /* Makes it circular */
+    object-fit: cover; /* Ensures the image is properly cropped */
+  }
+
+
+
+.icon-container {
+  position: relative; /* Ensure this is set */
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%; 
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10; 
+}
+.dropdown-menu {
+  position: absolute;
+  top: 100%; 
+  right: 0; 
+  transform: translateX(calc(-100% + 60px)); /* Adjust this as needed */
+  max-width: 200px; /* Prevents overflow */
+  background-color: white; 
+  border: 1px solid #ccc; 
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10; 
+  display: none; /* Hidden by default */
+}
+
+.icon-container .dropdown-menu {
+  display: block; /* Show when dropdown is open */
+}
+
+
+.dropdown-menu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  /* width: 100px; */
+}
+
+.dropdown-menu li {
+  padding: 10px;
+}
+
+.dropdown-menu li:hover {
+  background-color: #f0f0f0; 
+}
+
+
+.styled-video {
+    border: 2px solid #ccc; 
+    border-radius: 20px; 
+    /* width: 100%;  */
+    max-width: 600px; 
+    background-color: gray;
+  }
+  .logo {
+    display: flex;
+    align-items: center; 
+  }
+  
+  .logo i {
+    font-size: 30px; 
+    color: #FF0000; 
+    margin-right: 8px; 
+  }
+  
+  .youtube-text {
+    font-size: 24px; 
+    color: black; 
+    font-weight: bold; 
+  }
+  .fa-bell{
+    padding: 10px;
+    color: gold;
+  }
+  
+  
+  .search-button {
+    padding: 8px;
+    background-color: #f0f0f0; 
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 5px;
+  }
+  .fa-search {
+    padding: 10px;
+  }
+  .fa-camera{
+    padding: 10px;
+  }
+  
+  .search-container {
+    flex: 1;
+    display: flex;
+    justify-content: center; 
+  }
+  
+  .search-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 300px; 
+  }

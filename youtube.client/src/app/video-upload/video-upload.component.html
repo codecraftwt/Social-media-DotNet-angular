@@ -28,7 +28,7 @@
   
  
 </div>
-<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload Video</button>
+<button class="btn btn-primary" (click)="openModal()">Upload Video</button>
 <a routerLink="/header" class="btn btn-secondary ms-2">Home</a> 
 </div>
   <!-- Background Table -->
@@ -64,42 +64,35 @@
     </tbody>
   </table>
 
- 
+</div>
 
-
-  <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <form (ngSubmit)="upload()">
-          <div class="modal-header">
-            <h5 class="modal-title" id="uploadModalLabel">Upload Video</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
-          </div>
-          <div class="modal-body">
-            <div class="mb-3">
-              <label for="videoTitle" class="form-label">Video Title</label>
-              <input type="text" class="form-control" [(ngModel)]="videoTitle" name="videoTitle" placeholder="Enter video title" required />
-            </div>
-            <div class="mb-3">
-              <label for="videoDescription" class="form-label">Video Description</label>
-              <textarea class="form-control" [(ngModel)]="videoDescription" name="videoDescription" rows="3" placeholder="Enter video description" required></textarea>
-            </div>
-            <div class="mb-3">
-              <label for="videoFile" class="form-label">Upload Your Video</label>
-              <input type="file" class="form-control" (change)="onVideoChange($event)" accept="video/*" required />
-              <div *ngIf="videoError" class="text-danger">{{ videoError }}</div>
-            </div>
-            <div class="mb-3">
-              <label for="thumbnailFile" class="form-label">Upload Your Thumbnail</label>
-              <input type="file" class="form-control" (change)="onThumbnailChange($event)" accept="image/*" required />
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary" >Upload</button>
-          </div>
-        </form>
+  <ng-template #uploadModal let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title">Upload Video</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <div class="mb-3">
+        <label for="videoTitle" class="form-label">Video Title</label>
+        <input type="text" class="form-control" [(ngModel)]="videoTitle" name="videoTitle" placeholder="Enter video title" required />
+      </div>
+      <div class="mb-3">
+        <label for="videoDescription" class="form-label">Video Description</label>
+        <textarea class="form-control" [(ngModel)]="videoDescription" name="videoDescription" rows="3" placeholder="Enter video description" required></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="videoFile" class="form-label">Upload Your Video</label>
+        <input type="file" class="form-control" (change)="onVideoChange($event)" accept="video/*" required />
+        <div *ngIf="videoError" class="text-danger">{{ videoError }}</div>
+      </div>
+      <div class="mb-3">
+        <label for="thumbnailFile" class="form-label">Upload Your Thumbnail</label>
+        <input type="file" class="form-control" (change)="onThumbnailChange($event)" accept="image/*" required />
       </div>
     </div>
-  </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
+      <button type="button" class="btn btn-primary" (click)="upload()">Upload</button>
+    </div>
+  </ng-template>
+  
