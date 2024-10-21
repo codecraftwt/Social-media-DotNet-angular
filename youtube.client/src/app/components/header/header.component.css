@@ -169,7 +169,8 @@ video {
   justify-content: space-between; 
   align-items: center;     
   /* width: 400PX;    */
-  overflow: hidden;          
+  overflow: hidden;   
+  color:white;       
 }
 
 
@@ -180,6 +181,7 @@ video {
   max-width: 100%; 
   text-align: left;
   margin-left: 10px;
+  color: white;
 }
 
 .video-icons {

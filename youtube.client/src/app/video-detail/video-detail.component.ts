@@ -52,7 +52,8 @@ export class VideoDetailComponent {
   isSubscribedToUser: { [userId: number]: boolean } = {};
   replyVisibility: { [commentId: number]: boolean } = {};
   searchTerm: string = ''; 
-  
+ 
+  isReplyInputVisible: { [key: number]: boolean } = {};
 
   constructor(
     private videoUploadService: VideoUploadService,
@@ -455,7 +456,7 @@ submitReply(commentId: number) {
 }
 
 loadReplies(commentId: number) {
-  
+  debugger
   if (!this.replyVisibility[commentId]) {
   this.replyCommnetService.getRepliesForComment(commentId).subscribe(
       (replies: ReplyDto[]) => {
@@ -478,10 +479,10 @@ this.replyVisibility[commentId] = !this.replyVisibility[commentId];
 
 
 
-cancelReply(comment:ReplyDto) {
-  comment.replyText = '';
-  comment.replyVisible = false;
-}
+// cancelReply(comment:ReplyDto) {
+//   comment.replyText = '';
+//   comment.replyVisible = false;
+// }
 
 onInputreplyFocus() {
  
@@ -535,8 +536,16 @@ onVideosFiltered(filtered: VideoUpload[]): void {
     this.filteredVideos = filtered;
   }
   
-  console.log('Filtered Videos:', this.filteredVideos);
+ 
 }
 
+toggleReplyInput(commentId: number) {
+  this.isReplyInputVisible[commentId] = !this.isReplyInputVisible[commentId];
+}
+
+cancelReply(commentId: number) {
+  this.replyText = '';
+  this.isReplyInputVisible[commentId] = false;
+}
 
 }

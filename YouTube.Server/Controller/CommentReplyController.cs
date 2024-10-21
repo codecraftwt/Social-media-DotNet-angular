@@ -92,7 +92,7 @@ namespace YouTube.Server.Controller
             var reply = await _replyComment.GetReplyByIdAsync(id);
             if (reply == null)
             {
-                return NotFound($"Reply with ID {id} not found.");
+                return Ok(reply);
             }
             return Ok(reply);
         }

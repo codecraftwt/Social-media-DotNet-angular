@@ -201,6 +201,7 @@ namespace YouTube.Server.Controller
                 // Return paths for the video and thumbnail
                 return Ok(new
                 {
+                    Id = videoUpload.Id,
                     videoFilePath = Url.Content($"~/UploadedVideos/{Path.GetFileName(videoFilePath)}"),
                     thumbnailFilePath = Url.Content($"~/UploadedThumbnails/{Path.GetFileName(thumbnailFilePath)}"),
                   

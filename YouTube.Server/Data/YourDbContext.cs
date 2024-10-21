@@ -14,6 +14,7 @@ namespace YouTube.Server.Data
         public DbSet<Subscribed> Subscribe { get; set; }
         public DbSet<CommentUSer> Comment { get; set; }
         public DbSet<CommentReply> Reply { get; set; }
+        public DbSet<Notification> Notification { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

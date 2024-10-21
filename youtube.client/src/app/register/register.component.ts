@@ -25,7 +25,7 @@ export class RegisterComponent {
     if (input.files && input.files[0]) {
       const file = input.files[0];
       this.user.ProfilePic = file.name; 
-      console.log(this.user.ProfilePic);
+      
     }
   }
 
@@ -42,12 +42,12 @@ export class RegisterComponent {
       if (file) {
         formData.append('profilePic', file);
       }
-      console.log( this.user.ProfilePic)
+   
    
       
       this.registrationService.CreateUser(formData).subscribe(response => {
      
-        console.log('Registration successful', response);
+       
         Swal.fire({
           icon: 'success',
           title: 'Registration successful',

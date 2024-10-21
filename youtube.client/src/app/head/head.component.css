@@ -95,6 +95,8 @@
 
 
 .styled-video {
+  width: 150px;
+  margin-left: 20px;
     border: 2px solid #ccc; 
     border-radius: 20px; 
     /* width: 100%;  */
@@ -150,3 +152,24 @@
     border-radius: 10px;
     width: 300px; 
   }
+  .video-item{
+    display: flex;
+  }
+
+  .modal-content{
+    top: 50px;
+    right: 0px;
+    left: 850px;
+    width: 80%;
+  }
+  
+
+
+  .custom-modal .modal-dialog {
+    width: 500px; 
+    max-width: 90%; 
+  }
+  .custom-modal .modal-body {
+    padding: 20px; 
+  }
+  

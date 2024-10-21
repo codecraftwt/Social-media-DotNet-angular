@@ -40,7 +40,7 @@ export class RegistrationService extends BaseService {
         this.authService.setUserId(userId);
         return this.getUserToken(userId).pipe(
           tap(tokenResponse => {
-            console.log('User Token Response:', tokenResponse);
+           
            
           }),
           
@@ -61,7 +61,7 @@ getUserToken(userId: number): Observable<any> {
   return this.http.get<any>(`${this.rootController}/${userId}/token`).pipe(
     tap(response => {
    
-      console.log('User Token Response:', response);
+    
       this.authService.setToken(response.token);
       this.setAccessToken(response.token);
     })
@@ -82,12 +82,10 @@ getUserProfileById(userId: number): Observable<Profile> {
   
   return this.http.get<{ profilePic: string }>(`${this.rootController}/${userId}/GetUserById`, { headers: this.createHeadersv() }).pipe(
     map(response => {
-      console.log('Profile Picture from API:', response); 
-      
+    
       // Accessing the profilePic property correctly
       const profilePicUrl = `${environment.baseUrl}${response.profilePic}`;
-      console.log('Profile Picture URL:', profilePicUrl);
-      
+    
       return {
         ProfilePic: profilePicUrl,
       };
@@ -124,11 +122,11 @@ getUserNameById(userId: number): Observable<string> {
  
   return this.http.get<{ username: string }>(`${this.rootController}/${userId}/username`, { headers: this.createHeadersP() }).pipe(
     tap(response => {
-      console.log('Fetched Username:', response.username);
+     
     }),
     map(response => response.username), // Extract the username from the response
     catchError(error => {
-      console.error('Error fetching username:', error);
+     
       return of(''); // Return an empty string or a default value in case of error
     })
   );

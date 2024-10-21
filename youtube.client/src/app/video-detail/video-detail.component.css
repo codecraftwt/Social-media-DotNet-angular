@@ -35,11 +35,14 @@
     outline: none; /* Remove the outline when focused */
     padding: 5px 0; /* Add some vertical padding */
     width: 100%; /* Ensure it takes full width */
+    background-color: black;
+    color:white;
     font-size: 16px; /* Adjust font size as needed */
   }
   
   .comment-input:focus {
-    border-bottom: 1px solid #007bff; /* Change bottom border color on focus */
+    border-bottom: 1px solid #007bff; 
+   
   }
   
 
@@ -109,7 +112,8 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start; /* Align text to the top */
-    z-index: 2; /* Ensure info is above the video */
+    z-index: 2;
+    color: white;
 }
 
 .video-title {
@@ -153,12 +157,14 @@
 }
 
 .comments-list {
-  margin-top: 20px; /* Space above comments list */
+  margin-top: 20px; 
+  color:white
 }
 
 .comment-item {
   border-bottom: 1px solid #eee; /* Light border between comments */
-  padding: 10px 0; /* Padding above and below each comment */
+  padding: 10px 0; 
+  color: white;
 }
 
 .comment-item:last-child {
@@ -188,10 +194,21 @@ h4 {
   width: 95%; 
   font-size: 16px;
   margin-left: 50px;
+  background-color: black;
+  color:white;
 }
 
 
 .but-replies{
   text-align: left;
   margin-left: 40px;
+  background-color: black;
+  color:white;
+}
+
+.video-info{
+  color:white
+}
+.title{
+  color:white;
 }

@@ -12,7 +12,7 @@ export class BaseService {
 
   constructor(protected http: HttpClient) {
     this.accessToken = localStorage.getItem('accessToken'); 
-    console.log('Retrieved Access Token:', this.accessToken);
+   
   }
   protected createHeaders(): HttpHeaders {
    
@@ -22,7 +22,7 @@ export class BaseService {
       Accept: 'application/json, text/plain, */*'
     });
     
-    console.log('Headers:', headers); // Debugging line
+   
     return headers;
   }
   setAccessToken(token: Token) {

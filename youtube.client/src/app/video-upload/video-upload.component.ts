@@ -5,6 +5,11 @@ import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/AuthService ';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NotifyService } from '../services/notify.service';
+import { NotificationVideo } from '../model/Notification';
+
+
+
 
 declare var bootstrap: any;
 
@@ -22,7 +27,7 @@ export class VideoUploadComponent {
 
   isUploadVisible: boolean = false;
 
-  constructor(private videoUploadService: VideoUploadService,private router: Router,private authService: AuthService,  private modalService: NgbModal, private cdr: ChangeDetectorRef ) {}
+  constructor(private videoUploadService: VideoUploadService,private router: Router,private authService: AuthService,  private modalService: NgbModal, private cdr: ChangeDetectorRef, private notificationService:NotifyService ) {}
 
 
   videos: VideoUpload[] = [];
@@ -32,6 +37,7 @@ export class VideoUploadComponent {
   videoError: string | null = null;
   videoTitle: string = '';
   videoDescription: string ='';
+  
 
   ngOnInit(): void {
     this.loadVideos();
@@ -65,50 +71,73 @@ export class VideoUploadComponent {
     }
   }
 
-  upload() {
-    debugger
+  upload(modal: any) {
+    debugger;
     const userId = this.authService.getUserId();
     if (userId !== null) {
-      if (this.videoFile && this.thumbnailFile && this.videoTitle && this.videoDescription) {
-        this.videoUploadService.uploadVideo(userId, this.videoFile, this.thumbnailFile, this.videoTitle, this.videoDescription,)
-          .subscribe(
-            response => {
-              this.videoUrl = response.videoFilePath; 
-              console.log('Upload successful!', response);
-              Swal.fire({
-                icon: 'success',
-                title: 'Upload successful!',
-                text: 'Your video has been uploaded successfully.',
-              });
-              
-              this.resetFields();
-              this.router.navigate(['/header']);
-            },
-            error => {
-              console.error('Upload failed', error);
-              let errorMessage = 'There was a problem uploading your video. Please try again.';
-              if (error.status === 400) {
-                errorMessage = 'Invalid data provided. Please check your inputs.';
-              } else if (error.status === 500) {
-                errorMessage = 'Server error. Please try again later.';
-              }
-              Swal.fire({
-                icon: 'error',
-                title: 'Upload failed',
-                text: errorMessage,
-              });
-            }
-          );
-      } else {
-        console.error('Please fill in all required fields.');
-        Swal.fire({
-          icon: 'warning',
-          title: 'Missing information',
-          text: 'Please fill in all required fields.',
-        });
-      }
+        if (this.videoFile && this.thumbnailFile && this.videoTitle && this.videoDescription) {
+            this.videoUploadService.uploadVideo(userId, this.videoFile, this.thumbnailFile, this.videoTitle, this.videoDescription)
+                .subscribe(
+                    response => {
+                        this.videoUrl = response.videoFilePath;
+                        console.log(response)
+                      
+                        const videoId = response.id;
+
+                        if (response.id !== undefined) {
+                          const notification: NotificationVideo = {
+                              id:0,
+                              videoId: videoId,
+                              viewNotification: false
+                          };
+                        this.notificationService.addNotification(notification)
+                            .subscribe(
+                                notificationResponse => {
+                                  debugger
+                                    console.log('Notification created successfully', notificationResponse);
+                                },
+                                notificationError => {
+                                    console.error('Failed to create notification', notificationError);
+                                }
+                            );
+
+                        console.log('Upload successful!', response);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Upload successful!',
+                            text: 'Your video has been uploaded successfully.',
+                        });
+
+                        this.resetFields();
+                        modal.dismiss(); 
+                        this.router.navigate(['/header']);}
+                    },
+                    error => {
+                        console.error('Upload failed', error);
+                        let errorMessage = 'There was a problem uploading your video. Please try again.';
+                        if (error.status === 400) {
+                            errorMessage = 'Invalid data provided. Please check your inputs.';
+                        } else if (error.status === 500) {
+                            errorMessage = 'Server error. Please try again later.';
+                        }
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Upload failed',
+                            text: errorMessage,
+                        });
+                    }
+                );
+        } else {
+            console.error('Please fill in all required fields.');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Missing information',
+                text: 'Please fill in all required fields.',
+            });
+        }
     }
-  }
+}
+
 
  
     openModal() {
@@ -134,7 +163,7 @@ export class VideoUploadComponent {
      if (userId !== null) {
      this.videoUploadService.getUserVideos(userId).subscribe({
        next: (videoFiles) => {
-         console.log('Video files from service:', videoFiles);
+       
          this.videos = videoFiles.map(video => ({
            ...video,
            Likes: video.likes ?? 0,
@@ -142,7 +171,7 @@ export class VideoUploadComponent {
            Views: video.views ?? 0,
          }));
         
-         console.log('Processed video files:', this.videos);
+        
        },
        error: (err) => {
          console.error('Error loading videos', err);

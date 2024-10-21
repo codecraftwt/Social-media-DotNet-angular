@@ -17,18 +17,18 @@ export class VideoUploadService  {
     // Call the base class constructor first
     this.userId = this.authService.getUserId(); // Now it's safe to use 'this'
     this.tokenKey = this.authService.getToken() || '';
-    console.log('Current User ID:', this.userId);
+   
   }
   ngOnInit(): void {
   
     this.userId = this.authService.getUserId();
-    console.log('Current User ID:', this.userId);
+    
   }
 
   private createHeaders(): HttpHeaders {
  
     const token = this.authService.getToken();
-    console.log('Retrieved Access Token:', this.tokenKey);
+  
     return new HttpHeaders({
       Authorization: `Bearer ${token || ''}`,
       'Content-Type': 'application/json',
@@ -79,12 +79,11 @@ export class VideoUploadService  {
     return this.http.get<VideoUpload[]>(`${this.apiUrl}/GetVideoAll`, {
       headers:this.createHeaders() // Pass the headers here
     }).pipe(
-      tap(response => console.log('API Response:', response)), 
+      // tap(response => console.log('API Response:', response)), 
       map(videoFiles => videoFiles.map(video => {
         const Url = `${environment.baseUrl}/${video.url}`; // Use 'video.url'
         const Thumbnail = `${environment.baseUrl}/${video.thumbnail}`; // Use 'video.thumbnail'
-        console.log('Video URL:', Url); // Log constructed video URL
-        console.log('Thumbnail URL:', Thumbnail); // Log constructed thumbnail URL
+       
         return {
           ...video, 
           url: Url,
@@ -127,12 +126,11 @@ export class VideoUploadService  {
     return this.http.get<VideoUpload[]>(`${this.apiUrl}/${Id}/GetVideosByUserId`, {
       headers:this.createHeaders() // Pass the headers here
     }).pipe(
-      tap(response => console.log('API Response:', response)), 
+      // tap(response => console.log('API Response:', response)), 
       map(videoFiles => videoFiles.map(video => {
         const Url = `${environment.baseUrl}/${video.url}`; // Use 'video.url'
         const Thumbnail = `${environment.baseUrl}/${video.thumbnail}`; // Use 'video.thumbnail'
-        console.log('Video URL:', Url); // Log constructed video URL
-        console.log('Thumbnail URL:', Thumbnail); // Log constructed thumbnail URL
+       
         return {
           ...video, 
           url: Url,
@@ -158,12 +156,11 @@ export class VideoUploadService  {
     return this.http.get<VideoUpload>(`${this.apiUrl}/${videoId}/video`, {
       headers: this.createHeaders() // Pass the headers here
     }).pipe(
-      tap(response => console.log('API Response:', response)),
+      // tap(response => console.log('API Response:', response)),
       map(video => {
         const Url = `${environment.baseUrl}/${video.url}`; // Construct video URL
         const Thumbnail = `${environment.baseUrl}/${video.thumbnail}`; // Construct thumbnail URL
-        console.log('Video URL:', Url); // Log constructed video URL
-        console.log('Thumbnail URL:', Thumbnail); // Log constructed thumbnail URL
+        
         
         return {
           ...video,

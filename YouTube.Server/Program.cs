@@ -85,6 +85,7 @@ builder.Services.AddScoped<IUserVideoViewRepository, UserVideoViewRepository>();
 builder.Services.AddScoped<ISubscribedRepository, SubscribedRepository>();
 builder.Services.AddScoped<ICommentVideo, CommentVideo>();
 builder.Services.AddScoped<IReplyComment, ReplyComment>();
+builder.Services.AddScoped<INotify, Notify>();
 builder.Services.AddControllers();
 var app = builder.Build();
 

@@ -25,7 +25,7 @@ onSubmit(form: any) {
   this.registrationService.login(this.user).subscribe(
     response => {
       debugger
-      console.log(response)
+
       if (response.token) {
         // Handle successful login (e.g., store token, redirect)
         console.log('Login successful!', response);

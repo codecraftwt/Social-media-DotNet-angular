@@ -11,7 +11,7 @@
       <video controls preload="metadata" [src]="video.url" [poster]="video.thumbnail" class="img-fluid w-100" autoplay>
         Your browser does not support the video tag.
       </video>
-      <h1 class="mt-3">{{ video.title }}</h1>
+      <h1 class="title mt-3">{{ video.title }}</h1>
 
       <div class="video-info mt-3 d-flex justify-content-between align-items-center">
         <div class="video-title d-flex align-items-center">
@@ -99,9 +99,6 @@
               <ng-container *ngIf="getUserProfilePic(comment.userId) !== 'assets/images/defaultProfilePic.jpg'; else defaultUserIcon">
                 <img [src]="getUserProfilePic(comment.userId)" alt="User Profile" class="user-profile-pic rounded-circle" />
               </ng-container>
-              <!-- <img *ngIf="getUserProfilePic(comment.userId) !== 'assets/images/defaultProfilePic.jpg'; else defaultUserIcon" class="user-profile-user rounded-circle"/> -->
-                
-             
               <ng-template #defaultUserIcon>
                 <span class="default-icon">👤</span>
               </ng-template>
@@ -115,48 +112,36 @@
                 <i class="fa fa-thumbs-up" (click)="likeComment(comment)"></i>
                 <span class="count">{{ comment.likes ?? 0 }}</span> |
               </span>
-              <span class="dislike-icon mr-3" >
+              <span class="dislike-icon mr-3">
                 <i class="fa-solid fa-thumbs-down" (click)="dislikeComment(comment)"></i>
                 <span class="count">{{ comment.dislikes ?? 0 }}</span>
               </span>
-              <ng-container *ngIf="getUserProfilePic(video.userId) !== 'assets/images/defaultProfilePic.jpg'; else defaultUserIcon">
-                <img [src]="getUserProfilePic(video.userId)" alt="User Profile" class="user-profile-pic rounded-circle" />
-              </ng-container>
-  
-              <ng-template #defaultUserIcon>
-                <span class="default-icon">👤</span>
-              </ng-template>
-              
-              <button (click)="showButtons1 = !showButtons1" class="btn btn-link ml-3">Reply</button>
-
+              <button (click)="toggleReplyInput(comment.id)" class="btn btn-link ml-3" style="color:white">Reply</button>
             </div>
-
-              <div class="but-replies">
-              <button (click)="loadReplies(comment.id)" >Replies {{ replyCount[comment.id] || 0 }}</button>
+        
+            <div class="but-replies">
+              <button (click)="loadReplies(comment.id)">Replies {{ replyCount[comment.id] || 0 }}</button>
               <div *ngIf="replyVisibility[comment.id]">
-              <div *ngIf="comment.replies && comment.replies.length > 0">
-                <div *ngFor="let reply of comment.replies" class="reply-item">
+                <div *ngIf="comment.replies && comment.replies.length > 0">
+                  <div *ngFor="let reply of comment.replies" class="reply-item">
                     <div class="reply-text">{{ reply.replyText }}</div>
                     <div class="comment-actions">
                       <span class="like-icon" class="mr-3">
                         <i class="fa fa-thumbs-up" (click)="likeReply(reply)"></i>
                         <span class="count">{{ reply.likes ?? 0 }}</span> |
                       </span>
-                      <span class="dislike-icon mr-3" >
+                      <span class="dislike-icon mr-3">
                         <i class="fa-solid fa-thumbs-down" (click)="dislikeReply(reply)"></i>
                         <span class="count">{{ reply.dislikes ?? 0 }}</span>
                       </span>
-                     
-        
                     </div>
-
-
-                  </div>  
+                  </div>
+                </div>
               </div>
             </div>
-            
-            </div>
-            <form *ngIf="showButtons1" #replyForm="ngForm" (ngSubmit)="submitReply(comment.id)" class="ml-2 flex-grow-1">
+        
+            <!-- Reply Input Field -->
+            <form *ngIf="isReplyInputVisible[comment.id]" #replyForm="ngForm" (ngSubmit)="submitReply(comment.id)" class="ml-2 flex-grow-1">
               <div class="form-group mb-0">
                 <input 
                   type="text" 
@@ -165,15 +150,16 @@
                   required 
                   placeholder="Write your reply..." 
                   [(ngModel)]="replyText" 
-                 />
+                />
               </div>
               <div class="button-group d-flex justify-content-end">
-                <button type="button" class="btn btn-secondary mr-2 custom-button" id="replyText" (click)="replyText = ''; showButtons1 = false;">Cancel</button>
+                <button type="button" class="btn btn-secondary mr-2 custom-button" (click)="cancelReply(comment.id)">Cancel</button>
                 <button type="submit" class="btn btn-primary custom-button" [disabled]="!replyText">Reply</button>
               </div>
             </form>
           </div>
         </div>
+        
       </div>
       
       

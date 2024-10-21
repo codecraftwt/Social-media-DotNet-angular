@@ -38,9 +38,9 @@ export class UserVideoComponent {
     if (userId !== null) {
       this.registrationService.getUserProfileById(userId).subscribe({
         next: (user) => {
-          console.log('Fetched User Profile:', user);
+       
           this.userProfilePic = user.ProfilePic; 
-          console.log('Profile Picture URL:', this.userProfilePic);
+         
         },
         error: (err) => {
           console.error('Error loading user profile', err);
@@ -56,7 +56,7 @@ export class UserVideoComponent {
     if (userId !== null) {
     this.videoUploadService.getUserVideos(userId).subscribe({
       next: (videoFiles) => {
-        console.log('Video files from service:', videoFiles);
+       
         this.videos = videoFiles.map(video => ({
           ...video,
           Likes: video.likes ?? 0,
@@ -65,7 +65,7 @@ export class UserVideoComponent {
         }));
         this.filteredVideos = this.videos;
         this.isLoading = false; 
-        console.log('Processed video files:', this.videos);
+        
       },
       error: (err) => {
         console.error('Error loading videos', err);
@@ -85,7 +85,7 @@ export class UserVideoComponent {
 
   logout() {
     
-    console.log('User logged out');
+  
     this.isDropdownOpen = false; 
   }
 
@@ -96,7 +96,7 @@ export class UserVideoComponent {
     this.videoUploadService.incrementLike(video.id).subscribe({
         next: () => {
             video.likes++;
-            console.log('Like incremented for video:', video.id);
+           
         },
         error: (err) => {
             console.error('Error incrementing like:', err);
@@ -126,7 +126,7 @@ export class UserVideoComponent {
 
   filterVideos(): void {
    
-    console.log('Current search term:', this.searchTerm); 
+   
   if (this.searchTerm.trim() === '') {
     this.filteredVideos = this.videos; 
   } else {

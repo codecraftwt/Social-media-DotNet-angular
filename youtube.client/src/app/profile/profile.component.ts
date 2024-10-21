@@ -37,7 +37,7 @@ export class ProfileComponent {
       (userData: EditProfile) => {
         this.user = userData; 
         
-        console.log(this.user)
+     
 
       },
       (error) => {

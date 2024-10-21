@@ -20,7 +20,7 @@
      
       <a routerLink="/upload"><i class="fas fa-camera"></i></a>
      
-      <!-- <i class="fas fa-bell"></i> -->
+       <i class="fas fa-bell" (click)="openNotificationsModal($event)"></i> 
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   
       <div class="icon-container" (click)="toggleDropdown()">
@@ -44,4 +44,34 @@
     </div>
   </nav>
   
+  <ng-template #notificationsModal let-modal class="modal custom-modal">
+    <!-- <div class="modal-content"> -->
+    <div class="modal-header">
+      <h5 class="modal-title">Notifications</h5>
+      <!-- <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button> -->
+    </div>
+    <div class="modal-body">
+      <div *ngIf="videos.length > 0; else noVideos">
+        <div *ngFor="let video of videos" class="video-item">
+          <img *ngIf="userProfilePic; else defaultIcon" [src]="userProfilePic" alt="Profile Picture" class="profile-pic" />
+        <ng-template #defaultIcon>
+          <span>👤</span>
+          
+        </ng-template>
+          <h3 style="margin-left: 20px;">{{ video.title }}</h3>
+          <video class="styled-video" controls preload="metadata" [poster]="video.thumbnail">
+            <source [src]="video.url" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+      <ng-template #noVideos>
+        <p>No related videos available.</p>
+      </ng-template>
+    </div>
+    <!-- <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.dismiss()">Close</button>
+    </div> -->
+  <!-- </div> -->
+  </ng-template>
   
