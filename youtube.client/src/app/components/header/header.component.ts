@@ -42,7 +42,7 @@ export class HeaderComponent {
   isSubscribedMap: { [key: number]: boolean } = {};
   videoDescriptionExpanded: { [key: number]: boolean } = {};
   selectedVideoId: number | null = null;
-
+  beforfilteredVideos: VideoUpload[] = [];
 
 
 
@@ -121,7 +121,7 @@ export class HeaderComponent {
           this.getUserFullName(video.userId);
           this.checkUserSubscription(video.userId);
         });
-       
+        this.beforfilteredVideos = this.videos;
       },
       error: (err) => {
         console.error('Error loading videos', err);
@@ -271,34 +271,38 @@ getUserFullName(userId: number): string {
   }
   
 
-  subscribe() {
-    debugger
+  subscribe(videoId : number) {
+    debugger;
     const userId = this.authService.getUserId();
     if (this.buttonText === 'Subscribed') {
       console.warn('Already subscribed');
       return; // Exit if already subscribed
     }
-
+  
     let subscribeby = null; // Initialize subscribeby
-
-    // Assuming you want to subscribe to the first video in this.videos
-    if (this.videos.length > 0) {
-        subscribeby = this.videos[0].userId; // Get userId of the first video
+  
+    // Find the selected video based on selectedVideoId
+    const selectedVideo = this.videos.find(video => video.id === videoId);
+  
+    if (selectedVideo) {
+      subscribeby = selectedVideo.userId; // Get userId of the selected video
     }
-
-    if (userId !== null) {
-    // Call a service to handle the subscription logic
-    this.subscribedService.subscribe(userId,subscribeby).subscribe(response => {
-      if (response.success) {
-        console.log('Subscribed successfully to user:', userId);
-        // Optionally, you can provide feedback to the user here
-      } else {
-        console.error('Subscription failed:', response.message);
-      }
-    });
+  
+    if (userId !== null && subscribeby !== null) {
+      // Call a service to handle the subscription logic
+      this.subscribedService.subscribe(userId, subscribeby).subscribe(response => {
+        if (response.id && response.userId && response.subscribeby) {
+          console.log('Subscribed successfully to user:', subscribeby);
+          // Optionally, provide feedback to the user here
+        } else {
+          console.error('Subscription failed:', response.message);
+        }
+      });
+    } else {
+      console.warn('User ID or selected video user ID is null');
+    }
   }
-  }
-
+  
 
   checkUserSubscription(userId: number) {
     debugger;
@@ -344,7 +348,25 @@ toggleDescription(videoId: number) {
 handleVideoClick(video: any) {
   this.incrementView(video); // Increment the view count
   this.router.navigate(['/video', video.id]);
-}      
+}  
+
+onVideosFiltered(filtered: VideoUpload[]): void {
+  if (filtered.length === 0) {
+    this.filteredVideos = this.beforfilteredVideos;
+  } else {
+    this.filteredVideos = filtered;
+  }
+  
+ 
+}
+
+OnpageFiltered(video :number): void {
+  debugger;
+  
+  
+  this.router.navigate(['/video', video]);
+}
+
         }
 
       

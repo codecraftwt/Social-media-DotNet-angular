@@ -44,6 +44,7 @@ export class VideoDetailComponent {
   buttonText: string = 'Subscribe';
   // usernames: string = '';
   videos: VideoUpload[] = [];
+  selectedVideo: VideoUpload | null = null; 
   comments: CommentDto[] = [];
   private viewedVideos: Set<string> = new Set();
   videoDescriptionExpanded: { [key: number]: boolean } = {};
@@ -75,7 +76,7 @@ export class VideoDetailComponent {
       this.videoId = Number(idString); // Convert to number
     }
 
-    // Fetch the video data using the videoId
+    this.initializeComponent();
     this.fetchVideoDetails(this.videoId);
     if (this.videoId !== null) {
       this.loadComments(this.videoId); // Check here
@@ -105,6 +106,7 @@ export class VideoDetailComponent {
           this.getUserProfilePic(video.userId);
           this.getUserFullName(video.userId);
           this.checkUserSubscription(video.userId);
+          this.incrementView(video);
         },
         error: (err) => {
          
@@ -263,8 +265,10 @@ loadVideos(): void {
         userId: video.userId ?? null,
       }));
 
-      // Exclude the currently displayed video
-      this.filteredVideos = this.videos.filter(video => video.id !== this.videoId);
+      if(this.selectedVideo == null){
+        this.filteredVideos = this.videos.filter(video => video.id !== this.videoId);
+      }
+        this.filteredVideos = this.videos.filter(video => video.id !== this.selectedVideo?.id)
       
       this.isLoading = false; 
       this.videos.forEach(video => {
@@ -288,7 +292,9 @@ handleVideoClick(selectedVideo: VideoUpload): void {
   debugger
 
   this.video = selectedVideo; 
+  this.selectedVideo=selectedVideo;
   this.loadComments(selectedVideo.id);
+  this.loadVideos()
 }
 
 
@@ -548,4 +554,27 @@ cancelReply(commentId: number) {
   this.isReplyInputVisible[commentId] = false;
 }
 
+
+OnpageFiltered(video :number): void {
+  debugger;
+  
+ this.videoId=video;
+
+
+  if (video !== null) {
+    this.fetchVideoDetails(video);
+    this.loadComments(video);
+  } else {
+    console.error('videoId is null, cannot load comments');
+  }
+  this.loadVideos()
+}
+
+
+initializeComponent(): void {
+  const idString = this.route.snapshot.paramMap.get('id');
+  if (idString) {
+    this.videoId = Number(idString);
+  }
+}
 }

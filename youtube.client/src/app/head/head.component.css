@@ -96,6 +96,7 @@
 
 .styled-video {
   width: 150px;
+  height: 100px;
   margin-left: 20px;
     border: 2px solid #ccc; 
     border-radius: 20px; 
@@ -156,20 +157,33 @@
     display: flex;
   }
 
-  .modal-content{
-    top: 50px;
-    right: 0px;
-    left: 850px;
-    width: 80%;
-  }
   
 
 
-  .custom-modal .modal-dialog {
-    width: 500px; 
-    max-width: 90%; 
+  .custom-modal {
+    position: fixed; /* Make it fixed */
+    top: 80px; /* Distance from the top */
+    left: 80%; /* Distance from the left */
+    margin: 0; 
+    right: 20PX;
+    width: 350px;
+    z-index: 1000;
+    
   }
-  .custom-modal .modal-body {
-    padding: 20px; 
+  
+  .custom-modal .modal-dialog {
+    /* Additional styles if needed */
+    transform: none; /* Ensure it does not get transformed by default */
+}
+
+  .notification-count {
+    position: absolute;
+    top: 10px; /* Adjust as necessary */
+    right: 80px; /* Adjust as necessary */
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 5px;
+    font-size: 9px;
   }
   

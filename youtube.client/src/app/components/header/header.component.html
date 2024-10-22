@@ -1,8 +1,8 @@
-
+<!-- 
 
 <nav class="navbar">
   <div class="logo">
-    <i class="fab fa-youtube"></i> <!-- YouTube icon -->
+    <i class="fab fa-youtube"></i> 
     <span class="youtube-text">YouTube</span>
   </div>
   <div class="search-container">
@@ -20,7 +20,7 @@
    
     <a routerLink="/upload"><i class="fas fa-camera"></i></a>
    
-    <!-- <i class="fas fa-bell"></i> -->
+    <i class="fas fa-bell"></i> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <div class="icon-container" (click)="toggleDropdown()">
@@ -44,7 +44,15 @@
   </div>
 </nav>
 
+ -->
 
+ <app-head 
+ [userProfilePic]="userProfilePic" 
+ [usernames]="usernames"
+ [filteredVideos]="filteredVideos || []"
+ (videosFiltered)="onVideosFiltered($event)"
+ (videoId)="OnpageFiltered($event)">
+ </app-head>
 
 
 <div class="video-list">
@@ -78,7 +86,7 @@
             
             <button *ngIf="video.isSubscribed; else subscribeTemplate" class="subscribe-button">Subscribed</button>
          <ng-template #subscribeTemplate>
-            <button   (click)="subscribe()"class="subscribe-button">Subscribe</button>
+            <button   (click)="subscribe(video.id)"class="subscribe-button">Subscribe</button>
         </ng-template>
             
           </div>

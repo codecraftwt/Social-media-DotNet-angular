@@ -263,3 +263,8 @@ video {
     -webkit-line-clamp: 2; /* Limit to 2 lines */
     overflow: hidden; /* Hide overflow */
   }
+
+  .noVideos{
+    padding-top: 10px;
+    color: white;
+  }
